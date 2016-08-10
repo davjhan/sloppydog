@@ -20,15 +20,19 @@
 #}
 
 -verbose
-
 -dontwarn android.support.**
 -dontwarn com.badlogic.gdx.backends.android.AndroidFragmentApplication
 -dontwarn com.badlogic.gdx.utils.GdxBuild
 -dontwarn com.badlogic.gdx.physics.box2d.utils.Box2DBuild
 -dontwarn com.badlogic.gdx.jnigen.BuildTarget*
--dontwarn com.badlogic.gdx.graphics.g2d.freetype.FreetypeBuild
+-dontwarn com.badlogic.gdx.**
 
--keep class com.badlogic.gdx.controllers.android.AndroidControllers
+-dontwarn com.facebook.share.**
+-dontwarn net.java.games.input.**
+-dontwarn org.lwjgl.**
+
+-keep class com.davidhan.lonelyball.resources.ColorNames{*;}
+-keep class com.davidhan.lonelyball.resources.FontAssets$Font{*;}
 
 -keepclassmembers class com.badlogic.gdx.backends.android.AndroidInput* {
    <init>(com.badlogic.gdx.Application, android.content.Context, java.lang.Object, com.badlogic.gdx.backends.android.AndroidApplicationConfiguration);
@@ -43,3 +47,17 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+
+#Facebook
+#-keep class com.facebook.android.*
+#-keep class android.webkit.WebViewClient
+#-keep class * extends android.webkit.WebViewClient
+#-keepclassmembers class * extends android.webkit.WebViewClient {
+#    <methods>;
+#}
+#
+
+#Sun
+#-dontwarn sun.misc.Unsafe
+#-dontwarn javax.annotation.**
+#-keep class com.badlogic.** {*;}
