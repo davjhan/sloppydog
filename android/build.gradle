@@ -3,7 +3,7 @@ android {
     compileSdkVersion 24
     signingConfigs {
         mySignature {
-            storeFile file('C:/Users/david/OneDrive/Documents/projects/lonelyball/keystore/release-keystore.jks')
+            storeFile file('C:/Users/david/OneDrive/Documents/projects/armball/keystore/release-keystore.jks')
             storePassword 'davidhan8'
             keyAlias 'David Han'
             keyPassword 'davidhan8'
@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.davidhan.lonelyball"
+        applicationId "com.davidhan.armball"
         minSdkVersion 15
         targetSdkVersion 24
         signingConfig signingConfigs.mySignature
@@ -84,7 +84,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.davidhan.lonelyball/com.davidhan.lonelyball.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.davidhan.armball/AndroidLauncher'
 }
 
 // sets up the Android Idea project, using the old Ant based build.
