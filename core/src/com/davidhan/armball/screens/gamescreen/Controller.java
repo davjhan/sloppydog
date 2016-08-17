@@ -7,7 +7,10 @@ package com.davidhan.armball.screens.gamescreen;
  * author: david
  * Copyright (c) 2016 David Han
  **/
-public interface Controlller {
+public interface Controller {
     public void onArrowPressed(int dire);
-    public void onJumpPressed();
+    public void onPlayerZeroTouchedDown();
+    public void onPlayerZeroTouchedUp();
+    public void onPlayerOneTouchedDown();
+    public void onPlayerOneTouchedUp();
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * author: david
  * Copyright (c) 2016 David Han
  **/
-public class Arm extends CompoundPhysicalEntity implements Grabber{
+public class Dog extends CompoundPhysicalEntity implements Grabber{
     public static final String TAG = "arm";
     public static final String SHAFT = "arm_shaft";
     public static final String HAND = "arm_hand";
@@ -41,7 +41,7 @@ public class Arm extends CompoundPhysicalEntity implements Grabber{
     Joint grabbedJoint;
     int playerNum;
 
-    public Arm(IApp iApp, World world, int playerNum) {
+    public Dog(IApp iApp, World world, int playerNum) {
         super(iApp);
         makeBodies(world);
         this.playerNum = playerNum;

@@ -1,6 +1,8 @@
 package com.davidhan.armball.screens.gamescreen.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.davidhan.armball.app.IApp;
 import com.davidhan.armball.constants.Display;
@@ -23,6 +25,7 @@ public class Target extends PhysicalEntity {
         super(iApp, body);
         reposition();
         body.setUserData(this);
+        setSprite(new Sprite(iApp.res().textures.ball));
     }
 
     @Override
@@ -36,6 +39,12 @@ public class Target extends PhysicalEntity {
             reposition();
         }
         super.act(delta);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+
+        super.draw(batch, parentAlpha);
     }
 
     public void reposition(){

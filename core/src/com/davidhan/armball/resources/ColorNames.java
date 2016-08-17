@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
+import net.dermetfan.gdx.physics.box2d.ContactAdapter;
+
 /**
  * name: Colours
  * desc:
@@ -15,6 +17,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
  **/
 public class ColorNames {
     public static final String NEAR_BLACK = "312825";
+    public static final String GAME_BG = "F5E8DA";
     public static final String OFF_WHITE = "eeeeee";
     public static final String TEXT_REG = NEAR_BLACK;
     public static final String TEXT_DISABLED = "6f6565";
@@ -25,6 +28,7 @@ public class ColorNames {
     public static final String BTN_DISABLED_HIGHLIGHT = "675a5f";
     public static final String BTN_DISABLED_TEXT = "0f0d0e";
     public static final String MODAL_DIM = "00000064";
+    public static final String SKIN_COLOR = "f79a6b";
 
     public ColorNames() {
 

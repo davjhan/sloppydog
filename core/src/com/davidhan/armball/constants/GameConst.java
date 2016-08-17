@@ -9,9 +9,9 @@ package com.davidhan.armball.constants;
  **/
 public class GameConst {
     public class Physics{
-        public static final float GRAVITY = -40;
+        public static final float GRAVITY = 0;
         public static final float BOUNDS_HALF_THICKNESS = 1;
-        public static final float GROUND_TOP = 10;
+        public static final float GROUND_TOP = 0;
         public static final float BALL_INITIAL_Y = 20;
         public static final float BALL_INITIAL_X = 18;
     }
@@ -34,18 +34,38 @@ public class GameConst {
         public static final float X_DAMPING = 15;
     }
     public class Arm{
-        public static final float NUM_LINKS = 24;
-        public static final float SHOULDER_RADIUS = 1;
-        public static final float ARM_THICKNESS = 0.6f;
-        public static final float LINK_HALF_LENGTH = 0.6f;
-        public static final float SHOULDER_Y = Physics.GROUND_TOP;
+        public static final float NUM_LINKS = 30;
+        public static final float ARM_RADIUS = 1f;
+        public static final float LINK_HALF_LENGTH = 0.5f;
+
         public static final float HAND_RADIUS = 1f;
-        public static final float IMPULSE_POWER = 30;
+        public static final float STARTING_Y_DIST = 9;
+        public static final float STARTING_X_DIST = 7;
+        public static final float P0_STARTING_Y = STARTING_Y_DIST;
+        public static final float P0_STARTING_X = Display.WORLD_HALF_WIDTH+STARTING_X_DIST;
+        public static final float IMPULSE_POWER = 60;
+
+        public static final float P1_STARTING_X = Display.WORLD_HALF_WIDTH-STARTING_X_DIST;
+        public static final float P1_STARTING_Y = Display.WORLD_HEIGHT-STARTING_Y_DIST+3;
+    }
+    public class DOG{
+        public static final float NUM_LINKS = 30;
+        public static final float RADIUS = 1f;
+        public static final float LINK_HALF_LENGTH = 0.5f;
+
+        public static final float HEAD_RADIUS = 1f;
+        public static final float STARTING_Y_DIST = 9;
+        public static final float STARTING_X_DIST = 7;
+        public static final float IMPULSE_POWER = 50;
 
     }
+    public class BOUNDS{
+        public static final float DOOR_HALF_WIDTH = Arm.ARM_RADIUS+0.1f;
+        public static final float WALL_THICKNESS = 9;
 
+    }
     public class Ball {
-        public static final float RADIUS = 1.5f;
+        public static final float RADIUS = 1f;
         public static final float STARTING_X = 6;
         public static final float STARTING_Y = 26;
         public static final float VELOCITY = 25;

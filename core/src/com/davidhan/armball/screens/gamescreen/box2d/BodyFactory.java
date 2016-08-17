@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -32,53 +33,82 @@ public class BodyFactory extends Body {
      * @param addr  the address
      */
     public static Vector2 tmp = new Vector2();
-    private static float pi = 3.14159f;
 
     protected BodyFactory(World world, long addr) {
         super(world, addr);
     }
 
-    public static Body createWalls(World world) {
+    public static void createTopAndBottomWalls(World world,float p0x,float p1x) {
         Body body = world.createBody(new BodyDef());
         PolygonShape groundBox = new PolygonShape();
-        //Bottom
+        //Bottomleft
         groundBox.setAsBox(
-                Display.WORLD_HALF_WIDTH,
-                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS,
-                new Vector2(Display.WORLD_HALF_WIDTH,
-                        com.davidhan.armball.constants.GameConst.Physics.GROUND_TOP -
-                                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS), 0);
-
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = groundBox;
-        fixtureDef.density = 0;
-        fixtureDef.friction = 1f;
-        fixtureDef.restitution = 0f;
-        body.createFixture(fixtureDef).setUserData(Wall.GROUND);
+                (p0x-GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(
+                        (p0x-GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+                        - GameConst.BOUNDS.WALL_THICKNESS
+                ),
+                0
+        );
+        //Bottom right
+        float botRightWidth = (Display.WORLD_WIDTH-GameConst.BOUNDS.DOOR_HALF_WIDTH-p0x) /2;
+        body.createFixture(groundBox,0).setUserData(Wall.GROUND);
+        groundBox.setAsBox(
+                botRightWidth,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(
+                        Display.WORLD_WIDTH-botRightWidth,
+                        - GameConst.BOUNDS.WALL_THICKNESS
+                ),
+                0
+        );
+        body.createFixture(groundBox,0).setUserData(Wall.GROUND);
         // body.createFixture(groundBox, 0.0f);
 
-        //top
+        //Top Left
         groundBox.setAsBox(
-                Display.WORLD_HALF_WIDTH,
-                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS,
-                new Vector2(Display.WORLD_HALF_WIDTH,
-                        Display.WORLD_HEIGHT +
-                                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS), 0);
-        body.createFixture(groundBox, 0.0f);
+                (p1x-GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(
+                        (p1x-GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+                        Display.WORLD_HEIGHT+GameConst.BOUNDS.WALL_THICKNESS
+                ),
+                0
+        );
+        //Top Top Right
+        float topRightWidth = (Display.WORLD_WIDTH-GameConst.BOUNDS.DOOR_HALF_WIDTH-p1x) /2;
+        body.createFixture(groundBox,0).setUserData(Wall.GROUND);
+        groundBox.setAsBox(
+                topRightWidth,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(
+                        Display.WORLD_WIDTH-topRightWidth,
+                        Display.WORLD_HEIGHT+GameConst.BOUNDS.WALL_THICKNESS
+                ),
+                0
+        );
+
+        body.createFixture(groundBox,0).setUserData(Wall.GROUND);
+    }
+    public static Body createSideWalls(World world) {
+        Body body = world.createBody(new BodyDef());
+        PolygonShape groundBox = new PolygonShape();
+
+        // body.createFixture(groundBox, 0.0f);
 
         //left
         groundBox.setAsBox(
-                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS,
+                GameConst.BOUNDS.WALL_THICKNESS,
                 Display.WORLD_HEIGHT,
-                new Vector2(-com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS, 0), 0);
+                new Vector2(-GameConst.BOUNDS.WALL_THICKNESS, 0), 0);
         body.createFixture(groundBox, 0.0f);
 
         //right
         groundBox.setAsBox(
-                com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS,
+                GameConst.BOUNDS.WALL_THICKNESS,
                 Display.WORLD_HEIGHT,
-                new Vector2(Display.WORLD_WIDTH + com.davidhan.armball.constants.GameConst.Physics.BOUNDS_HALF_THICKNESS, 0), 0);
+                new Vector2(Display.WORLD_WIDTH + GameConst.BOUNDS.WALL_THICKNESS, 0), 0);
         body.createFixture(groundBox, 0.0f);
         // Clean up after ourselves
         groundBox.dispose();
@@ -103,8 +133,8 @@ public class BodyFactory extends Body {
 
 
         torso.setAsBox(
-                com.davidhan.armball.constants.GameConst.Player.HEAD_RADIUS,
-                com.davidhan.armball.constants.GameConst.Player.FEET_HEIGHT,
+                GameConst.Player.HEAD_RADIUS,
+                GameConst.Player.FEET_HEIGHT,
                 new Vector2(
                         0, 0)
                 , 0);
@@ -115,20 +145,20 @@ public class BodyFactory extends Body {
 
 
         torso.setAsBox(
-                com.davidhan.armball.constants.GameConst.Player.HEAD_RADIUS,
-                com.davidhan.armball.constants.GameConst.Player.TORSO_HEIGHT,
+                GameConst.Player.HEAD_RADIUS,
+                GameConst.Player.TORSO_HEIGHT,
                 new Vector2(
                         0,
-                        com.davidhan.armball.constants.GameConst.Player.TORSO_HEIGHT)
+                        GameConst.Player.TORSO_HEIGHT)
                 , 0);
         fixtureDef.isSensor = false;
         fixtureDef.shape = torso;
         body.createFixture(fixtureDef).setUserData(com.davidhan.armball.screens.gamescreen.entities.Player.TORSO);
 
         //head
-        head.setRadius(com.davidhan.armball.constants.GameConst.Player.HEAD_RADIUS);
+        head.setRadius(GameConst.Player.HEAD_RADIUS);
         head.setPosition(
-                new Vector2(0, com.davidhan.armball.constants.GameConst.Player.TORSO_HEIGHT * 2)
+                new Vector2(0, GameConst.Player.TORSO_HEIGHT * 2)
         );
         fixtureDef.restitution = 1f;
         fixtureDef.shape = head;
@@ -147,8 +177,8 @@ public class BodyFactory extends Body {
         CircleShape edge = new CircleShape();
         PolygonShape net = new PolygonShape();
 
-        net.setAsBox(com.davidhan.armball.constants.GameConst.Hoop.HOOP_DISTANCE,
-                com.davidhan.armball.constants.GameConst.Hoop.NET_HEIGHT);
+        net.setAsBox(GameConst.Hoop.HOOP_DISTANCE,
+                GameConst.Hoop.NET_HEIGHT);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
         fixtureDef.shape = net;
@@ -156,64 +186,56 @@ public class BodyFactory extends Body {
         body.createFixture(fixtureDef).setUserData(com.davidhan.armball.screens.gamescreen.entities.Hoop.NET);
 
 
-        edge.setRadius(com.davidhan.armball.constants.GameConst.Hoop.RADIUS);
-        edge.setPosition(new Vector2(-com.davidhan.armball.constants.GameConst.Hoop.HOOP_DISTANCE, 0));
+        edge.setRadius(GameConst.Hoop.RADIUS);
+        edge.setPosition(new Vector2(-GameConst.Hoop.HOOP_DISTANCE, 0));
         body.createFixture(edge, 0);
 
-        edge.setPosition(new Vector2(com.davidhan.armball.constants.GameConst.Hoop.HOOP_DISTANCE, 0));
+        edge.setPosition(new Vector2(GameConst.Hoop.HOOP_DISTANCE, 0));
         body.createFixture(edge, 0);
         edge.dispose();
 
         return body;
     }
 
-    public static Body creatBall(World world) {
+    public static Body createBall(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         Body body = world.createBody(bodyDef);
         FixtureDef fixtureDef = new FixtureDef();
 
-        fixtureDef.density = 0.5f;
-        fixtureDef.friction = 2;
-        fixtureDef.restitution = 0.6f;
+        fixtureDef.density = 20;
+        fixtureDef.friction = 1;
+        fixtureDef.restitution = 0.7f;
+
+        Filter filterData  =new Filter();
+        filterData.maskBits = 31;
+        filterData.maskBits &= ~CollisionGroups.HAND;
 
         CircleShape ball = new CircleShape();
-        ball.setRadius(com.davidhan.armball.constants.GameConst.Ball.RADIUS);
+        ball.setRadius(GameConst.Ball.RADIUS);
         fixtureDef.shape = ball;
 
-        body.createFixture(fixtureDef);
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setFilterData(filterData);
         ball.dispose();
 
         return body;
     }
 
-    public static Body createShoulder(World world) {
-        BodyDef bodyDef = new BodyDef();
-        Body body = world.createBody(bodyDef);
-        CircleShape shoulderShape = new CircleShape();
-        shoulderShape.setRadius(GameConst.Arm.SHOULDER_RADIUS);
-        body.createFixture(shoulderShape, 10).setUserData(Arm.SHOULDER);
-        shoulderShape.dispose();
 
-        return body;
-    }
-
-    public static List<Body> createArm(World world, Body shoulder) {
+    public static List<Body> createArm(World world) {
         List<Body> links = new ArrayList<Body>();
         FixtureDef fixtureDef = BodyFactoryUtils.getArmFixtureDef();
 
         BodyDef linkBodyDef = new BodyDef();
         linkBodyDef.type = BodyDef.BodyType.DynamicBody;
 
+        CircleShape knob = new CircleShape();
+        knob.setRadius(GameConst.Arm.ARM_RADIUS);
         PolygonShape linkShape = new PolygonShape();
         linkShape.setAsBox(
-                GameConst.Arm.ARM_THICKNESS,
-                GameConst.Arm.LINK_HALF_LENGTH,
-                tmp.set(
-                        0,
-                        0
-                ),
-                0
+                GameConst.Arm.ARM_RADIUS,
+                GameConst.Arm.LINK_HALF_LENGTH
         );
         fixtureDef.shape = linkShape;
 
@@ -222,8 +244,14 @@ public class BodyFactory extends Body {
         revoluteJointDef.lowerAngle = -(float)Math.toRadians(360);
         revoluteJointDef.upperAngle = 0;
         //---
-        Body prevBody = shoulder;
-        Vector2 joinSpot = shoulder.getPosition();
+        Body prevBody = null;
+        Vector2 joinSpot = new Vector2();
+
+        Filter filterData = new Filter();
+        filterData.categoryBits= CollisionGroups.ARM_LINK_0;
+        filterData.maskBits=1;
+
+       // filterData0.groupIndex = -1;
         for (int i = 0; i < GameConst.Arm.NUM_LINKS; i++) {
             Body linkBody = world.createBody(linkBodyDef);
             if(i == 1){
@@ -232,30 +260,53 @@ public class BodyFactory extends Body {
                 revoluteJointDef.localAnchorA.y = GameConst.Arm.LINK_HALF_LENGTH;
 
             }
+
+            fixtureDef.shape = linkShape;
             linkBody.setTransform(
-                    Display.WORLD_HALF_WIDTH,
-                    GameConst.Arm.SHOULDER_Y
-                            +GameConst.Arm.LINK_HALF_LENGTH
-                            + (i * GameConst.Arm.LINK_HALF_LENGTH * 2), 0);
-            linkBody.createFixture(fixtureDef);
+                    GameConst.Arm.P0_STARTING_X,
+                    GameConst.Arm.P0_STARTING_Y
+                            -GameConst.Arm.LINK_HALF_LENGTH
+                            - (i * GameConst.Arm.LINK_HALF_LENGTH * 2), 0);
+            Fixture shaft= linkBody.createFixture(fixtureDef);
+            shaft.setFilterData(filterData);
+            shaft.setUserData(Arm.SHAFT);
 
+            knob.setPosition(new Vector2(0,-GameConst.Arm.LINK_HALF_LENGTH));
+            fixtureDef.shape = knob;
+            Fixture topKnob= linkBody.createFixture(fixtureDef);
+            topKnob.setFilterData(filterData);
+            topKnob.setUserData(Arm.SHAFT);
 
-            revoluteJointDef.initialize(prevBody, linkBody, joinSpot);
-            revoluteJointDef.localAnchorB.x = 0;
-            revoluteJointDef.localAnchorB.y = -GameConst.Arm.LINK_HALF_LENGTH;
-            world.createJoint(revoluteJointDef).setUserData(Arm.SHAFT);
+            knob.setPosition(new Vector2(0,GameConst.Arm.LINK_HALF_LENGTH));
+            Fixture botKnob= linkBody.createFixture(fixtureDef);
+            botKnob.setFilterData(filterData);
+            botKnob.setUserData(Arm.SHAFT);
+
+            if(i > 0) {
+                revoluteJointDef.initialize(prevBody, linkBody, joinSpot);
+                world.createJoint(revoluteJointDef);
+            }
 
             links.add(linkBody);
             prevBody = linkBody;
             joinSpot.set(
                     linkBody.getPosition().x,
-                    linkBody.getPosition().y + GameConst.Arm.LINK_HALF_LENGTH);
+                    linkBody.getPosition().y - GameConst.Arm.LINK_HALF_LENGTH);
+            if(i % 2 == 0){
+                filterData.categoryBits= CollisionGroups.ARM_LINK_0;
+                filterData.maskBits=31;
+                filterData.maskBits&= ~CollisionGroups.ARM_LINK_0;
+            }else{
+                filterData.categoryBits= CollisionGroups.ARM_LINK_1;
+                filterData.maskBits=31;
+                filterData.maskBits&= ~CollisionGroups.ARM_LINK_1;
+            }
         }
 
         return links;
     }
 
-    public static Body createHand(World world, Body lastLink) {
+    public static Body createHand(World world, Body firstLink) {
 
 
         BodyDef handBodyDef = new BodyDef();
@@ -263,9 +314,12 @@ public class BodyFactory extends Body {
 
         Body handBody = world.createBody(handBodyDef);
         handBody.setTransform(
-                lastLink.getPosition().x,
-                lastLink.getPosition().y+ GameConst.Arm.LINK_HALF_LENGTH,0);
+                firstLink.getPosition().x,
+                firstLink.getPosition().y+ GameConst.Arm.LINK_HALF_LENGTH,0);
 
+        Filter filterData  =new Filter();
+        filterData.categoryBits = CollisionGroups.HAND;
+       // filterData.maskBits = 31;
 
         CircleShape handShape = new CircleShape();
         handShape.setRadius(GameConst.Arm.HAND_RADIUS);
@@ -273,12 +327,16 @@ public class BodyFactory extends Body {
         FixtureDef fixtureDef = BodyFactoryUtils.getArmFixtureDef();
         fixtureDef.density=5;
         fixtureDef.shape = handShape;
-        handBody.createFixture(fixtureDef).setUserData(Arm.HAND);
+        Fixture hand = handBody.createFixture(fixtureDef);
+        Fixture handSensor = handBody.createFixture(fixtureDef);
+        handSensor.setUserData(Arm.HAND);
+        handSensor.setSensor(true);
+        hand.setFilterData(filterData);
 
 
 
         RevoluteJointDef revoluteJointDef = BodyFactoryUtils.getLinkRevoluteJointDef();
-        revoluteJointDef.initialize(lastLink, handBody, lastLink.getPosition().cpy().add(0,GameConst.Arm.LINK_HALF_LENGTH));
+        revoluteJointDef.initialize(firstLink, handBody, firstLink.getPosition().cpy().add(0,GameConst.Arm.LINK_HALF_LENGTH));
 
         revoluteJointDef.localAnchorA.x = 0;
         revoluteJointDef.localAnchorA.y = GameConst.Arm.LINK_HALF_LENGTH;
@@ -305,4 +363,21 @@ public class BodyFactory extends Body {
         body.setGravityScale(0);
         return body;
     }
+
+    public static Body createDoor(World world) {
+        BodyDef bodyDef = new BodyDef();
+        Body body = world.createBody(bodyDef);
+        PolygonShape shoulderShape = new PolygonShape();
+        shoulderShape.setAsBox(GameConst.BOUNDS.DOOR_HALF_WIDTH,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(   Display.WORLD_HALF_WIDTH, -GameConst.BOUNDS.DOOR_HALF_WIDTH),
+                0
+        );
+        body.createFixture(shoulderShape, 10);
+        shoulderShape.dispose();
+
+        return body;
+    }
+
+
 }

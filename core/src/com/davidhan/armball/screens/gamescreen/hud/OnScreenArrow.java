@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.davidhan.armball.screens.gamescreen.Controller;
 import com.davidhan.armball.uireusables.SolidDrawable;
 
 /**
@@ -15,10 +16,10 @@ import com.davidhan.armball.uireusables.SolidDrawable;
  * Copyright (c) 2016 David Han
  **/
 public class OnScreenArrow extends com.davidhan.armball.screens.gamescreen.entities.BaseEntity {
-    com.davidhan.armball.screens.gamescreen.Controlller controller;
+    Controller controller;
     int dire;
     boolean isDown = false;
-    public OnScreenArrow(com.davidhan.armball.app.IApp iApp, com.davidhan.armball.screens.gamescreen.Controlller controller, int dire) {
+    public OnScreenArrow(com.davidhan.armball.app.IApp iApp, Controller controller, int dire) {
         super(iApp);
         this.dire = dire;
         this.controller = controller;

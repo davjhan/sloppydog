@@ -67,6 +67,7 @@ public abstract class ScreenBase implements Screen, com.davidhan.armball.app.ISc
         update(delta);
         stage.act(delta);
         stage.draw();
+
     }
 
     protected void update(float delta) {

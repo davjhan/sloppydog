@@ -16,8 +16,8 @@ public class BodyFactoryUtils {
 
     public static RevoluteJointDef getLinkRevoluteJointDef(){
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-        revoluteJointDef.lowerAngle = -0.3f * pi; // -90 degrees
-        revoluteJointDef.upperAngle = 0.3f * pi; // 45 degrees
+        revoluteJointDef.lowerAngle = -0.075f * pi; // -90 degrees
+        revoluteJointDef.upperAngle = 0.075f * pi; // 45 degrees
         revoluteJointDef.collideConnected = false;
         revoluteJointDef.localAnchorB.set(0, -GameConst.Arm.LINK_HALF_LENGTH);
         revoluteJointDef.enableLimit = true;

@@ -1,12 +1,12 @@
 package com.davidhan.armball.screens.gamescreen;
 
 /**
- * name: GameRules
+ * name: GameLog
  * desc:
- * date: 2016-08-10
+ * date: 2016-08-15
  * author: david
  * Copyright (c) 2016 David Han
  **/
-public class GameRules {
-    public static final float BALL_REWARD_TIME = 2000;
+public abstract class GameLog {
+    public abstract void  update(float delta);
 }

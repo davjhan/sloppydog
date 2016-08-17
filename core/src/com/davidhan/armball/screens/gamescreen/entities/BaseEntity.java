@@ -27,13 +27,16 @@ public class BaseEntity extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (sprite != null) {
-            batch.draw(sprite.getTexture(),
-                    (getX() + sprite.getX()),
-                    (getY() + sprite.getY()),
-                    (sprite.getWidth()),
-                    (sprite.getHeight()));
+           drawSprite(batch,parentAlpha,sprite);
         }
         super.draw(batch, parentAlpha);
+    }
+    public void drawSprite(Batch batch,float parentAlpha,Sprite sprite){
+        batch.draw(sprite.getTexture(),
+                (getX() + sprite.getX()),
+                (getY() + sprite.getY()),
+                (sprite.getWidth()),
+                (sprite.getHeight()));
     }
 
     @Override

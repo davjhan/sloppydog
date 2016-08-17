@@ -10,7 +10,7 @@ import com.davidhan.armball.modals.SettingsModal;
 import com.davidhan.armball.resources.ColorNames;
 import com.davidhan.armball.resources.HanSkin;
 import com.davidhan.armball.screens.ScreenBase;
-import com.davidhan.armball.screens.gamescreen.GameScreen;
+import com.davidhan.armball.screens.gamescreen.singleplayergame.SinglePlayerGame;
 import com.davidhan.armball.uireusables.GameGroup;
 import com.davidhan.armball.uireusables.SolidDrawable;
 import com.davidhan.armball.uireusables.scene2dhan.ClickListener;
@@ -60,7 +60,7 @@ public class HomeScreen extends ScreenBase {
     @Override
     public void show() {
         super.show();
-        iApp.setScreen(new GameScreen(iApp));
+        iApp.setScreen(new SinglePlayerGame(iApp));
     }
 
     @Override

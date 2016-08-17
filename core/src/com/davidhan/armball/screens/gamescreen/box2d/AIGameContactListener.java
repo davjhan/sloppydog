@@ -6,11 +6,11 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.davidhan.armball.screens.gamescreen.singleplayergame.SinglePlayerGame;
+import com.davidhan.armball.screens.gamescreen.aigame.AIGame;
 import com.davidhan.armball.screens.gamescreen.entities.Arm;
+import com.davidhan.armball.screens.gamescreen.entities.Ball;
 import com.davidhan.armball.screens.gamescreen.entities.BodyEntity;
 import com.davidhan.armball.screens.gamescreen.entities.PhysicalEntity;
-import com.davidhan.armball.screens.gamescreen.entities.Target;
 
 /**
  * name: GameContactListener
@@ -19,31 +19,37 @@ import com.davidhan.armball.screens.gamescreen.entities.Target;
  * author: david
  * Copyright (c) 2016 David Han
  **/
-public class GameContactListener implements ContactListener {
-    SinglePlayerGame singlePlayerGame;
+public class AIGameContactListener implements ContactListener {
+    AIGame gameScreen;
     BodyEntity beATemp;
     BodyEntity beBTemp;
-    public GameContactListener(SinglePlayerGame singlePlayerGame){
-        this.singlePlayerGame = singlePlayerGame;
+    public AIGameContactListener(AIGame gameScreen){
+        this.gameScreen = gameScreen;
     }
     @Override
     public void beginContact(Contact contact) {
       //  PhysicalEntity a = (PhysicalEntity)contact.getFixtureA().getBody().getUserData();
       //  PhysicalEntity b = (PhysicalEntity)contact.getFixtureB().getBody().getUserData();
-        if(between(contact, Arm.TAG, Target.TAG)){
+        if(oneFixtureIsTag(contact,Arm.HAND)){
+            Gdx.app.log("tttt AIGameContactListener", "one is hand");
+        }
+        if(between(contact, Arm.TAG, Ball.TAG)){
             if(oneFixtureIsTag(contact,Arm.HAND)){
-                Target target = (Target) getEntityByTag(contact,Target.TAG);
-                target.flagForReposition();
-                singlePlayerGame.incrementScore();
-
+                Gdx.app.log("tttt AIGameContactListener", "hit BALL AND HAND");
+                Arm arm = (Arm) getEntityByTag(contact,Arm.TAG);
+                Ball ball = (Ball) getEntityByTag(contact,Ball.TAG);
+                if(!ball.isGrabbed()) {
+                    arm.requestGrab(ball);
+                }
+                //gameScreen.incrementScore();
             }
         }
         if(oneFixtureIsTag(contact, Arm.HAND)){
             Arm arm= (Arm) getEntityByTag(contact,Arm.TAG);
             //Gdx.app.log("tttt GameContactListener", "vel len "+arm.getHand().getLinearVelocity().len2());
-            if(arm.getHand().getLinearVelocity().len2() > 47*47){
+            if(arm.getHand().getLinearVelocity().len2() > 20*20){
                 Gdx.app.log("tttt GameContactListener", "shake: ");
-                singlePlayerGame.shakeScreen(4);
+                gameScreen.shakeScreen(4);
             }
         }
 
@@ -85,7 +91,16 @@ public class GameContactListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
+        if(between(contact,Arm.TAG,Arm.TAG)){
 
+              Arm armA = (Arm)contact.getFixtureA().getBody().getUserData();
+              Arm armB = (Arm)contact.getFixtureB().getBody().getUserData();
+            if(armA == armB){
+                if(oneFixtureIsTag(contact,Arm.HAND)){
+                    contact.setEnabled(false);
+                }
+            }
+        }
     }
 
     @Override
