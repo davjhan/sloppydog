@@ -1,0 +1,125 @@
+
+packed_assets.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+apple
+  rotate: false
+  xy: 2, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ball
+  rotate: false
+  xy: 720, 152
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+bg-ninepatches
+  rotate: false
+  xy: 364, 196
+  size: 192, 48
+  orig: 192, 48
+  offset: 0, 0
+  index: -1
+btn-ninepatch
+  rotate: false
+  xy: 326, 67
+  size: 60, 95
+  orig: 60, 95
+  offset: 0, 0
+  index: -1
+dog-arm
+  rotate: false
+  xy: 326, 8
+  size: 20, 15
+  orig: 20, 15
+  offset: 0, 0
+  index: -1
+dog-head
+  rotate: false
+  xy: 2, 164
+  size: 360, 80
+  orig: 360, 80
+  offset: 0, 0
+  index: -1
+dog-link
+  rotate: false
+  xy: 364, 164
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+link
+  rotate: false
+  xy: 364, 164
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+dog-tail
+  rotate: false
+  xy: 326, 25
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+grass-tiles
+  rotate: false
+  xy: 834, 199
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 558, 144
+  size: 160, 100
+  orig: 160, 100
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 388, 142
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+list-item-bg-nine
+  rotate: false
+  xy: 881, 232
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+palette
+  rotate: false
+  xy: 720, 174
+  size: 112, 70
+  orig: 112, 70
+  offset: 0, 0
+  index: -1
+pause-button
+  rotate: false
+  xy: 406, 164
+  size: 40, 30
+  orig: 40, 30
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 164, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+shaft
+  rotate: false
+  xy: 834, 177
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1

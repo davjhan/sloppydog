@@ -156,7 +156,8 @@ public class BodyFactory extends Body {
         FixtureDef fixtureDef = new FixtureDef();
       //  fixtureDef.isSensor = true;
         fixtureDef.shape = shoulderShape;
-        fixtureDef.density = 2;
+        fixtureDef.density = 1;
+        fixtureDef.restitution = 0.4f;
         Fixture sensorFixture = body.createFixture(fixtureDef);
         shoulderShape.dispose();
         body.setGravityScale(0);

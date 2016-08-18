@@ -1,7 +1,6 @@
 package com.davidhan.sloppydog.screens.gamescreen.hud;
 
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.GameConst;
@@ -44,16 +43,13 @@ public class HungerMeter extends AppGameGroup {
     public void act(float delta) {
         super.act(delta);
     }
-
+    public void setFullMeterPercentage(float fillPercent){
+        fullMeterBar.setFillPercentage(fillPercent);
+    }
     private void makeBG() {
         bg = new Image(new SolidDrawable(getWidth(), getHeight(), Colors.get(ColorNames.HUNGER_METER_BG)));
         spawn(bg);
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if (isTransform()) applyTransform(batch, computeTransform());
-        drawChildren(batch, parentAlpha);
-    }
 
 }

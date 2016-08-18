@@ -25,7 +25,11 @@ public class TextureAssets extends TextureCutter {
     public TextureRegion[][] link;
     public TextureRegion[] dogArm;
     public TextureRegion ball;
+    public TextureRegion[] apple;
+    public TextureRegion[] shadow;
     public TextureRegion dogTail;
+    public TextureRegion[] grassTiles;
+    public TextureRegion[] pauseButton;
 
     public TextureAssets(com.davidhan.sloppydog.resources.Assets assets){
         assets.load(PACKED_ATLAS, TextureAtlas.class);
@@ -47,8 +51,12 @@ public class TextureAssets extends TextureCutter {
                 Animation.PlayMode.LOOP
         );
         dogArm = cutLinear(atlas,"dog-arm",10,14);
+        grassTiles = cutLinear(atlas,"grass-tiles",15,15);
         link = cut(atlas,"link",20,30);
         ball = cutSingle(atlas,"ball");
+        apple = cutLinear(atlas,"apple",40,40);
+        shadow = cutLinear(atlas,"shadow",40,40);
+        pauseButton = cutLinear(atlas,"pause-button",20,30);
         dogTail = cutSingle(atlas,"dog-tail");
         //handAnimation = new Animation(0.16f, Array.with(hand), Animation.PlayMode.NORMAL);
     }

@@ -101,11 +101,11 @@ public class GameConst {
     }
 
     public class Hud {
-        public static final float BOTTOM = 1f;
+        public static final float BOTTOM = 0;
 
         public class HungerMeter {
             public static final float HEIGHT = 30;
-            public static final float WIDTH =Display.WIDTH;
+            public static final float WIDTH =Display.WIDTH-20;
             public static final float PAD = 4;
         }
     }

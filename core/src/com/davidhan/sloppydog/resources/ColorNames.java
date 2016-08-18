@@ -21,12 +21,16 @@ public class ColorNames {
     public static final String TEXT_DISABLED = "6f6565";
     public static final String BTN_PRIMARY_HIGHLIGHT = "fb79a5";
     public static final String BTN_PRIMARY_TEXT = "eeeeee";
-    public static final String BTN_REGULAR_HIGHLIGHT = "f9f5f6";
-    public static final String BTN_REGULAR_TEXT = "371622";
+    public static final String BTN_REGULAR_HIGHLIGHT = "cbb8b3";
+    public static final String BTN_REGULAR_TEXT = "432a23";
     public static final String BTN_DISABLED_HIGHLIGHT = "675a5f";
     public static final String BTN_DISABLED_TEXT = "0f0d0e";
     public static final String MODAL_DIM = "00000064";
     public static final String SKIN_COLOR = "f79a6b";
+    public static final String GRASS_BG = "adc078";
+    public static final String GRASS_BG_DARK = "70905b";
+
+
     public static final String HUNGER_METER_BG = "3c213c";
     public static final String HUNGER_METER_FILLED = "d54c4c";
     public static final String HUNGER_METER_FILLED_TEXT = HUNGER_METER_BG;

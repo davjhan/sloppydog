@@ -1,6 +1,5 @@
 package com.davidhan.sloppydog.modals;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,10 +28,10 @@ import com.davidhan.sloppydog.uireusables.scene2dhan.HanTable;
  * Copyright (c) 2016 David Han
  **/
 public abstract class ModalBase extends GameGroup {
-    Image dim;
+    protected Image dim;
     boolean cancelable;
-    IApp iApp;
-    Table table;
+    protected IApp iApp;
+    protected Table table;
     boolean locked;
 
     public ModalBase(IApp iApp){
@@ -101,20 +100,23 @@ public abstract class ModalBase extends GameGroup {
         });
 
     }
-    private void close() {
-        Gdx.app.log("tttt ModalBase", "locked: " +locked);
+    protected void close() {
         if(locked) return;
         addAction(Actions.sequence(
                 Actions.fadeOut(AnimConst.DUR_TRANSITION, Interpolation.pow2In),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
+                        onCloseComplete();
                         remove();
                     }
                 })));
         setLocked(true);
 
     }
+
+    protected abstract void onCloseComplete();
+
     @Override
     public boolean remove() {
         iApp = null;

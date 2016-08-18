@@ -71,9 +71,12 @@ public abstract class GameScreen extends com.davidhan.sloppydog.screens.ScreenBa
         gameStarted = false;
         world = new World(new Vector2(0, GameConst.Physics.GRAVITY), true);
         initContactListener(world);
+
+        initGameLog();
     }
 
     protected abstract void initContactListener(World world);
+    protected abstract void initGameLog();
 
     public void startGame() {
         gameStarted = true;
@@ -100,7 +103,9 @@ public abstract class GameScreen extends com.davidhan.sloppydog.screens.ScreenBa
     }
 
     protected abstract void initGui();
+    protected abstract void resumeGame();
 
+    public abstract void startPauseMenu() ;
     public void restartGame() {
         reset();
         setupNewGame();

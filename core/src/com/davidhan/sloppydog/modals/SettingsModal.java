@@ -35,4 +35,9 @@ public class SettingsModal extends ModalBase {
         table.row();
         table.add(resetLabel).fillX();
     }
+
+    @Override
+    protected void onCloseComplete() {
+
+    }
 }

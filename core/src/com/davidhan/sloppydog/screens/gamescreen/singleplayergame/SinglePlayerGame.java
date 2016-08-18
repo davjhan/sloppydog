@@ -2,19 +2,15 @@ package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.davidhan.sloppydog.app.IApp;
-import com.davidhan.sloppydog.constants.Display;
 import com.davidhan.sloppydog.constants.GameConst;
-import com.davidhan.sloppydog.resources.ColorNames;
 import com.davidhan.sloppydog.screens.gamescreen.GameScreen;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.BodyFactory;
+import com.davidhan.sloppydog.screens.gamescreen.entities.BgGrass;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Dog;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Door;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Target;
-import com.davidhan.sloppydog.uireusables.SolidDrawable;
 
 
 /**
@@ -31,8 +27,9 @@ public class SinglePlayerGame extends GameScreen {
     Dog dog;
     Door door;
     Target target;
-
+    BgGrass bgGrass;
     SinglePlayerGameLog gameLog;
+    SinglePlayerPauseMenu pauseMenu;
 
     public SinglePlayerGame(IApp iApp) {
         super(iApp);
@@ -41,12 +38,12 @@ public class SinglePlayerGame extends GameScreen {
     @Override
     public void firstLaunchSetup() {
         super.firstLaunchSetup();
-        initBG();
+
     }
 
     private void initBG() {
-        Image bg = new Image(new SolidDrawable(Display.WIDTH, Display.HEIGHT, Colors.get(ColorNames.GAME_BG)));
-        bgGroup.spawn(bg);
+        bgGrass = new BgGrass(iApp);
+        bgGroup.spawn(bgGrass);
     }
 
     private void createBounds() {
@@ -83,7 +80,8 @@ public class SinglePlayerGame extends GameScreen {
     @Override
     protected void setupNewGame() {
         super.setupNewGame();
-        gameLog = new SinglePlayerGameLog(this);
+        initBG();
+        paused = false;
         createBounds();
         gui.newGame();
         // spawnBall();
@@ -99,6 +97,11 @@ public class SinglePlayerGame extends GameScreen {
         contactListener = new SinglePlayerContactListener(this);
         world.setContactListener(contactListener);
 
+    }
+
+    @Override
+    protected void initGameLog() {
+        gameLog = new SinglePlayerGameLog(this);
     }
 
     private void spawnDog() {
@@ -117,7 +120,8 @@ public class SinglePlayerGame extends GameScreen {
 
     @Override
     public void endGame() {
-        super.endGame();
+        Gdx.app.log("tttt SinglePlayerGame", "game ended"+gameEnded);
+        gameEnded = true;
         gui.endGame();
 
     }
@@ -130,8 +134,30 @@ public class SinglePlayerGame extends GameScreen {
 
     @Override
     protected void initGui() {
-        gui = new SinglePlayerGui(iApp, this,gameLog);
+        gui = new SinglePlayerGui(iApp, this);
         stage.addActor(gui);
+    }
+
+    @Override
+    public void startPauseMenu() {
+        paused = true;
+        pauseMenu = new SinglePlayerPauseMenu(iApp,new SinglePlayerPauseMenu.PauseMenuListener(){
+            @Override
+            public void resume() {
+                SinglePlayerGame.this.resumeGame();
+            }
+
+            @Override
+            public void restartGame() {
+                SinglePlayerGame.this.restartGame();
+            }
+        });
+        iApp.modalStage().addActor(pauseMenu);
+    }
+
+    @Override
+    protected void resumeGame() {
+        paused = false;
     }
 
     //Controller

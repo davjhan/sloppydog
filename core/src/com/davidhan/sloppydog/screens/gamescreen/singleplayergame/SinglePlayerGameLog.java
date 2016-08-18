@@ -12,7 +12,6 @@ import com.davidhan.sloppydog.screens.gamescreen.GameLog;
  **/
 public class SinglePlayerGameLog extends GameLog {
     private int score;
-    private double countDownInMillis;
     private float hunger;
     private SinglePlayerGame game;
     public SinglePlayerGameLog(SinglePlayerGame game){
@@ -26,31 +25,29 @@ public class SinglePlayerGameLog extends GameLog {
     public int getScore() {
         return score;
     }
-    public String getCounDownString(){
-        return String.valueOf(countDownInMillis/1000);
-    }
-
     public void setScore(int score) {
         this.score = score;
     }
 
     @Override
     public void update(float delta) {
-        changeHunger(SPGameRules.Hunger.DIMINISH_RATE_PER_FRAME);
-
+        changeHunger(-SPGameRules.Hunger.DIMINISH_RATE_PER_FRAME);
     }
 
     public void changeHunger(float delta) {
-        setHunger(hunger- delta);
+        setHunger(hunger+ delta);
     }
 
     public float getHunger() {
         return hunger;
     }
-
+    public float getHungerPercentage(){
+        return hunger/SPGameRules.Hunger.MAX;
+    }
     public void setHunger(float hunger) {
-        this.hunger = Math.min(0,Math.max(1,hunger));
-        if(hunger == 0){
+        this.hunger = Math.max(0,Math.min(SPGameRules.Hunger.MAX,hunger));
+
+        if( this.hunger == 0){
             flagGameOver();
         }
     }

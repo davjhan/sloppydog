@@ -48,10 +48,10 @@ public class HungerMeterBar extends AppGameGroup {
                                 ColorNames.HUNGER_METER_FILLED:
                                 ColorNames.HUNGER_METER_EMPTY)
         ));
-        HanLabel hungryLabel = new HanLabel(iApp,"HUNGRY", FontAssets.Font.SGK,
+        HanLabel hungryLabel = new HanLabel(iApp,"HUNGRY", FontAssets.Font.SPORTY,
                 type == FULL?Colors.get(ColorNames.HUNGER_METER_FILLED_TEXT):
                         Colors.get(ColorNames.HUNGER_METER_EMPTY_TEXT));
-        HanLabel fullLabel  = new HanLabel(iApp,"FULL", FontAssets.Font.SGK,
+        HanLabel fullLabel  = new HanLabel(iApp,"FULL", FontAssets.Font.SPORTY,
                 type == FULL?Colors.get(ColorNames.HUNGER_METER_FILLED_TEXT):
                         Colors.get(ColorNames.HUNGER_METER_EMPTY_TEXT));
         spawn(bg);
@@ -65,7 +65,9 @@ public class HungerMeterBar extends AppGameGroup {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-
+        if(fillPercentage < 0.01){
+            return;
+        }
         if(fillPercentage < 1){
             clipBegin(getX(),getY(),fullWidth*fillPercentage,getHeight());
             super.draw(batch, parentAlpha);
@@ -73,5 +75,6 @@ public class HungerMeterBar extends AppGameGroup {
         }else{
             super.draw(batch, parentAlpha);
         }
+
     }
 }

@@ -1,20 +1,22 @@
 package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.Display;
 import com.davidhan.sloppydog.resources.ColorNames;
 import com.davidhan.sloppydog.resources.FontAssets;
 import com.davidhan.sloppydog.screens.gamescreen.Controller;
-import com.davidhan.sloppydog.screens.gamescreen.GameScreen;
 import com.davidhan.sloppydog.screens.gamescreen.hud.HungerMeter;
 import com.davidhan.sloppydog.screens.gamescreen.hud.OnScreenArrow;
 import com.davidhan.sloppydog.uireusables.GameGroup;
 import com.davidhan.sloppydog.uireusables.scene2dhan.ClickListener;
+import com.davidhan.sloppydog.uireusables.scene2dhan.HanImageButton;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanLabel;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanTextButton;
 
@@ -35,21 +37,18 @@ public class SinglePlayerGui extends GameGroup {
     IApp iApp;
     OnScreenArrow leftArrow;
     OnScreenArrow rightArrow;
-    GameScreen gameScreen;
+    SinglePlayerGame game;
     Controller controller;
     HanLabel scoreCounter;
     HungerMeter hungerMeter;
-    SinglePlayerGameLog gameLog;
+    HanImageButton pauseButton;
     private boolean screenTouchDown;
 
-    public SinglePlayerGui(IApp iApp, GameScreen gameScreen,SinglePlayerGameLog gameLog) {
+    public SinglePlayerGui(IApp iApp, SinglePlayerGame game) {
         this.iApp = iApp;
-        this.gameScreen = gameScreen;
-        this.gameLog = gameLog;
+        this.game = game;
         initGroups();
-        this.controller =  gameScreen;
-        makeController(gameScreen);
-        makeHud();
+        this.controller = game;
     }
 
     private void makeHud() {
@@ -59,17 +58,30 @@ public class SinglePlayerGui extends GameGroup {
         resetButton.setClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                gameScreen.restartGame();
+                game.restartGame();
             }
         });
 
-        hungerMeter = new HungerMeter(iApp,gameLog.getHunger());
+        hungerMeter = new HungerMeter(iApp, game.getGameLog().getHungerPercentage());
         inGame.spawn(hungerMeter,0,Display.HEIGHT,Align.topLeft);
 
         scoreCounter = new HanLabel(iApp,"0", FontAssets.Font.SGK, Colors.get(ColorNames.NEAR_BLACK));
         inGame.spawn(scoreCounter,10, Display.HEIGHT-30,Align.topLeft);
 
-        inGame.spawn(resetButton, 0, 0,Align.bottomLeft);
+      //  inGame.addActor(resetButton);
+
+        pauseButton = new HanImageButton(iApp,
+                new TextureRegionDrawable(iApp.res().textures.pauseButton[0]),
+                new TextureRegionDrawable(iApp.res().textures.pauseButton[1])
+        );
+        inGame.spawn(pauseButton,Display.WIDTH,Display.HEIGHT,Align.topRight);
+        pauseButton.setClickListener(new ClickListener() {
+            @Override
+            public void onClick() {
+                game.startPauseMenu();
+            }
+        });
+       // inGame.spawn(resetButton);
     }
 
     private void makeController(final Controller controller) {
@@ -103,6 +115,7 @@ public class SinglePlayerGui extends GameGroup {
     @Override
     public void act(float delta) {
         super.act(delta);
+        hungerMeter.setFullMeterPercentage(game.getGameLog().getHungerPercentage());
 //        if(screenTouchDown){
 //            controller.onPlayerOneTouchedDown();
 //        }
@@ -111,6 +124,7 @@ public class SinglePlayerGui extends GameGroup {
     private void initGroups() {
         preGame = new GameGroup();
         inGame = new GameGroup();
+        inGame.setSize(Display.WIDTH,Display.HEIGHT);
         postGame = new GameGroup();
         debugAll();
         spawn(preGame);
@@ -136,6 +150,9 @@ public class SinglePlayerGui extends GameGroup {
                 FontAssets.Font.SGK,
                 Colors.get(ColorNames.NEAR_BLACK)
         );
+        inGame.clear();
+        makeController(game);
+        makeHud();
         postGame.spawn(tapToResetLabel, Display.HALF_WIDTH,60,Align.bottom);
     }
    public void startGame(){
