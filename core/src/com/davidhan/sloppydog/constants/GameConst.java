@@ -38,10 +38,10 @@ public class GameConst {
         public static final float P1_STARTING_Y = Display.WORLD_HEIGHT-STARTING_Y_DIST+3;
     }
     public class Dog{
-        public static final float REVOLUTE_JOINT_MAX_ANGLE = 0.075f;
+        public static final float REVOLUTE_JOINT_MAX_ANGLE = 30;
 
         public class Torso {
-            public static final float NUM_LINKS = 10;
+            public static final float NUM_LINKS = 3;
             public static final float RADIUS = 1f;
             public static final float LINK_HALF_LENGTH = 0.6f;
         }
@@ -55,14 +55,15 @@ public class GameConst {
             public static final float NUM_LINKS = 6;
             public static final float RADIUS = 0.3f;
             public static final float LINK_HALF_LENGTH = 0.4f;
+            public static final float REVOLUTE_JOINT_MAX_ANGLE = 25;
         }
         public class Butt{
             public static final float NUM_LINKS = 5;
             public static final float RADIUS = 1.5f;
             public static final float HALF_LENGTH = 0.75f;
         }
-        public static final float STARTING_Y= 9;
-        public static final float STARTING_X= Display.WORLD_HALF_WIDTH+7;
+        public static final float STARTING_Y= World.HALF_HEIGHT+6;
+        public static final float STARTING_X= World.HALF_WIDTH;
         public static final float IMPULSE_POWER = 50;
 
 
@@ -102,6 +103,8 @@ public class GameConst {
 
     public class Hud {
         public static final float BOTTOM = 0;
+        public static final int HEIGHT = 30;
+        public static final int PAUSE_BUTTON_WIDTH = 20;
 
         public class HungerMeter {
             public static final float HEIGHT = 30;

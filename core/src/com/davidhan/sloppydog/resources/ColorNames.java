@@ -33,9 +33,9 @@ public class ColorNames {
 
     public static final String HUNGER_METER_BG = "3c213c";
     public static final String HUNGER_METER_FILLED = "d54c4c";
-    public static final String HUNGER_METER_FILLED_TEXT = HUNGER_METER_BG;
+    public static final String HUNGER_METER_FILLED_TEXT = "952828";
     public static final String HUNGER_METER_EMPTY = "60465f";
-    public static final String HUNGER_METER_EMPTY_TEXT = OFF_WHITE;
+    public static final String HUNGER_METER_EMPTY_TEXT = HUNGER_METER_BG;
 
     public ColorNames() {
 

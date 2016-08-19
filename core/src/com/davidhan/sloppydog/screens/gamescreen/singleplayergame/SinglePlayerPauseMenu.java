@@ -21,6 +21,7 @@ public class SinglePlayerPauseMenu extends ModalBase {
     public SinglePlayerPauseMenu(IApp iApp, PauseMenuListener pauseMenuListener) {
         super(iApp);
         this.pauseMenuListener = pauseMenuListener;
+        begin();
     }
 
     @Override

@@ -141,9 +141,9 @@ public class DogBodyFactory {
         return handBody;
     }
 
-    public static List<Body> createArm(World world, Body shoulder,Object userData) {
+    public static List<Body> createArms(World world, Body shoulder, Object userData) {
         List<Body> links = new ArrayList<Body>();
-        RevoluteJointDef revoluteJointDef = BodyFactoryUtils.getLinkRevoluteJointDef(GameConst.Dog.REVOLUTE_JOINT_MAX_ANGLE);
+        RevoluteJointDef revoluteJointDef = BodyFactoryUtils.getLinkRevoluteJointDef(GameConst.Dog.Arm.REVOLUTE_JOINT_MAX_ANGLE);
         //---
         Body prevBody = null;
         Vector2 joinSpot = new Vector2(shoulder.getPosition());
@@ -175,9 +175,34 @@ public class DogBodyFactory {
         joinSpot.set(
                 shoulder.getPosition().x,
                 shoulder.getPosition().y);
-        BodyFactoryUtils.setRevolutionMax(revoluteJointDef, 45,-90);
+        BodyFactoryUtils.setRevolutionMax(revoluteJointDef, 60,-90);
         BodyFactoryUtils.joinBodiesWithRevolute(world,revoluteJointDef,shoulder, links.get(0),new Vector2(),new Vector2(0,GameConst.Dog.Arm.LINK_HALF_LENGTH));
 
         return links;
+    }
+
+    public static Body extendTorso(World world, Body lastLink, Body tail,Object userData) {
+        Body linkBody = BodyFactoryUtils.createPillBody(world,
+                GameConst.Dog.Torso.RADIUS,
+                GameConst.Dog.Torso.LINK_HALF_LENGTH,
+                Dog.SHAFT,
+                CollisionGroups.FILTER_DOG_TORSO());
+        Vector2 vec = new Vector2(0,-GameConst.Dog.Torso.LINK_HALF_LENGTH*2);
+
+        linkBody.setTransform(lastLink.getWorldPoint(vec),lastLink.getAngle());
+        RevoluteJointDef revoluteJointDef = BodyFactoryUtils.getLinkRevoluteJointDef(GameConst.Dog.REVOLUTE_JOINT_MAX_ANGLE);
+
+        vec.set(0,-GameConst.Dog.Torso.LINK_HALF_LENGTH);
+        BodyFactoryUtils.joinBodiesWithRevolute(world,revoluteJointDef,lastLink,linkBody,lastLink.getWorldPoint(vec));
+
+        tail.setTransform(linkBody.getWorldPoint(vec),linkBody.getAngle());
+        BodyFactoryUtils.joinBodiesWithRevolute(world,revoluteJointDef,linkBody,tail,linkBody.getWorldPoint(vec));
+
+        linkBody.setUserData(userData);
+        return linkBody;
+
+//        Vector2 jointSpot = new Vector2(
+//                linkBody.getPosition().x,
+//                linkBody.getPosition().y - GameConst.Dog.Arm.LINK_HALF_LENGTH);
     }
 }

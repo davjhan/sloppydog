@@ -1,12 +1,12 @@
 package com.davidhan.sloppydog.screens.gamescreen.hud;
 
-import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Align;
 import com.davidhan.sloppydog.app.IApp;
+import com.davidhan.sloppydog.constants.Display;
 import com.davidhan.sloppydog.constants.GameConst;
-import com.davidhan.sloppydog.resources.ColorNames;
 import com.davidhan.sloppydog.uireusables.AppGameGroup;
-import com.davidhan.sloppydog.uireusables.SolidDrawable;
 
 /**
  * name: HungerMeter
@@ -24,18 +24,31 @@ public class HungerMeter extends AppGameGroup {
         super(iApp);
         setSize(GameConst.Hud.HungerMeter.WIDTH, GameConst.Hud.HungerMeter.HEIGHT);
 
-        makeBG();
-
         makeHungerBar(initialHunger);
     }
 
     private void makeHungerBar(float initialHunger) {
-        fullMeterBar = new HungerMeterBar(iApp,HungerMeterBar.FULL, initialHunger);
-        emptyMeterBar = new HungerMeterBar(iApp,HungerMeterBar.EMPTY,1);
+        float width = calcWidth();
+        fullMeterBar = new HungerMeterBar(iApp,HungerMeterBar.FULL, initialHunger,width);
+        emptyMeterBar = new HungerMeterBar(iApp,HungerMeterBar.EMPTY,initialHunger,width);
 
-        spawn(emptyMeterBar,GameConst.Hud.HungerMeter.PAD, GameConst.Hud.HungerMeter.PAD);
-        spawn(fullMeterBar,GameConst.Hud.HungerMeter.PAD, GameConst.Hud.HungerMeter.PAD);
+        spawn(emptyMeterBar,GameConst.Hud.HungerMeter.PAD,getHeight()/2, Align.left);
+        spawn(fullMeterBar,GameConst.Hud.HungerMeter.PAD,getHeight()/2, Align.left);
     }
+
+    private float calcWidth() {
+
+        return  Display.WIDTH-GameConst.Hud.PAUSE_BUTTON_WIDTH- (GameConst.Hud.HungerMeter.PAD)-getX();
+    }
+
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+        Gdx.app.log("tttt HungerMeter", "width: " +calcWidth());
+        fullMeterBar.setWidth(calcWidth());
+        emptyMeterBar.setWidth(calcWidth());
+    }
+
 
 
 
@@ -45,11 +58,9 @@ public class HungerMeter extends AppGameGroup {
     }
     public void setFullMeterPercentage(float fillPercent){
         fullMeterBar.setFillPercentage(fillPercent);
+        emptyMeterBar.setFillPercentage(fillPercent);
     }
-    private void makeBG() {
-        bg = new Image(new SolidDrawable(getWidth(), getHeight(), Colors.get(ColorNames.HUNGER_METER_BG)));
-        spawn(bg);
-    }
+
 
 
 }

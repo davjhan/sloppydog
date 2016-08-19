@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.JointEdge;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.GameConst;
@@ -47,8 +48,11 @@ public class Dog extends CompoundPhysicalEntity {
     List<Body> frontBotArm;
     List<Body> backTopArm;
     List<Body> backBotArm;
+    Vector2  headOrigin;
     private Body target;
     boolean running;
+    int flagGrow = 0;
+    boolean dead = false;
     int playerNum;
 
     public Dog(IApp iApp, World world, int playerNum) {
@@ -64,8 +68,7 @@ public class Dog extends CompoundPhysicalEntity {
         headIdle = new AnimatedSprite(iApp.res().textures.dogHeadIdle);
         headChomping = new AnimatedSprite(iApp.res().textures.dogHeadChomp);
 
-
-        Vector2 headOrigin = new Vector2(
+        headOrigin = new Vector2(
                 iApp.res().textures.dogHeadFrames[0][0].getRegionWidth() / 2 + 14,
                 iApp.res().textures.dogHeadFrames[0][0].getRegionHeight() / 2);
         headIdle.setOrigin(headOrigin.x, headOrigin.y);
@@ -86,12 +89,12 @@ public class Dog extends CompoundPhysicalEntity {
 //            shaftSprites.add(shaftSprite);
 //            shaftOutlineSprites.add(shaftOutlineSprite);
 //        }
-        torsoLinkSprite = new Sprite(iApp.res().textures.link[0][0]);
-        pawSprite= new Sprite(iApp.res().textures.dogArm[1]);
+        torsoLinkSprite = new Sprite(iApp.res().textures.dogLink[0]);
+        pawSprite= new Sprite(iApp.res().textures.dogArm[0][1]);
 
-        armSprite = new Sprite(iApp.res().textures.dogArm[0]);
+        armSprite = new Sprite(iApp.res().textures.dogArm[0][0]);
         headSprite = headIdle;
-        tailSprite = new Sprite(iApp.res().textures.dogTail);
+        tailSprite = new Sprite(iApp.res().textures.dogTail[0]);
         tailSprite.setOriginCenter();
     }
 
@@ -102,21 +105,23 @@ public class Dog extends CompoundPhysicalEntity {
         head = DogBodyFactory.createHead(world, links.get(0));
         tail = DogBodyFactory.createTail(world, links.get(links.size()-1));
 
-        frontTopArm = DogBodyFactory.createArm(world, links.get(1), this);
-        rotateBodiesBy(frontTopArm,frontTopArm.get(0),315);
+        frontTopArm = DogBodyFactory.createArms(world, links.get(1), this);
+        rotateBodiesBy(frontTopArm,frontTopArm.get(0),260);
         translateBodiesTo(frontTopArm, frontTopArm.get(0), links.get(1).getPosition());
 
-        backTopArm = DogBodyFactory.createArm(world, links.get(1), this);
-        rotateBodiesBy(backTopArm,backTopArm.get(0),235);
+
+        backTopArm = DogBodyFactory.createArms(world, links.get(1), this);
+        rotateBodiesBy(backTopArm,backTopArm.get(0),280);
         translateBodiesTo(backTopArm, backTopArm.get(0), links.get(1).getPosition());
 
-        frontBotArm = DogBodyFactory.createArm(world, tail, this);
-        rotateBodiesBy(frontBotArm, frontBotArm.get(0),315);
+
+        frontBotArm = DogBodyFactory.createArms(world, tail, this);
+        rotateBodiesBy(frontBotArm, frontBotArm.get(0),260);
         translateBodiesTo(frontBotArm, frontBotArm.get(0), tail.getPosition());
 
-        backBotArm = DogBodyFactory.createArm(world, tail, this);
-        rotateBodiesBy(frontBotArm, backBotArm.get(0),235);
-        translateBodiesTo(frontBotArm, backBotArm.get(0), tail.getPosition());
+        backBotArm = DogBodyFactory.createArms(world, tail, this);
+        rotateBodiesBy(backBotArm, backBotArm.get(0),280);
+        translateBodiesTo(backBotArm, backBotArm.get(0), tail.getPosition());
 
         // frontTopArm =
         addBody(head);
@@ -185,14 +190,19 @@ public class Dog extends CompoundPhysicalEntity {
 
     @Override
     public void act(float delta) {
-        if (target == null) {
-            setRunning(false);
-        }
-        if (running) {
-            goToLocation(target.getPosition(), GameConst.Arm.IMPULSE_POWER);
-            setHeadSprite(headChomping);
-        } else {
-            setHeadSprite(headIdle);
+        if(!dead) {
+            if (target == null) {
+                setRunning(false);
+            }
+            if (running) {
+                goToLocation(target.getPosition(), GameConst.Arm.IMPULSE_POWER);
+                setHeadSprite(headChomping);
+            } else {
+                setHeadSprite(headIdle);
+            }
+            if(flagGrow > 0){
+                grow();
+            }
         }
     }
 
@@ -273,6 +283,33 @@ public class Dog extends CompoundPhysicalEntity {
         return tail;
     }
 
+    public void die(){
+        dead = true;
+        headSprite = new AnimatedSprite(iApp.res().textures.dogHeadDead);
+        headSprite.setOrigin(headOrigin.x,headOrigin.y);
+        torsoLinkSprite = new Sprite(iApp.res().textures.dogLink[1]);
+        pawSprite= new Sprite(iApp.res().textures.dogArm[1][1]);
+        armSprite = new Sprite(iApp.res().textures.dogArm[1][0]);
+        tailSprite = new Sprite(iApp.res().textures.dogTail[1]);
+    }
+
+    public void flagGrow(int amount){
+        flagGrow += amount;
+    }
+    public void grow(){
+        //  tail.getWorld().destroyJoint(tail.getJointList().get(0));
+        Gdx.app.log("tttt Dog", "at grow()");
+        for(JointEdge jointEdge:tail.getJointList()){
+            if(jointEdge.other == links.get(links.size()-1)){
+                Gdx.app.log("tttt Dog", "destroy");
+                tail.getWorld().destroyJoint(jointEdge.joint);
+                break;
+            }
+        }
+
+        links.add(DogBodyFactory.extendTorso(tail.getWorld(),links.get(links.size()-1),tail,this));
+        flagGrow --;
+    }
     public void setRunning(boolean running) {
         this.running = running;
     }

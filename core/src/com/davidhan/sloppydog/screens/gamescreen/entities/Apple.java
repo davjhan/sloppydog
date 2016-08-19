@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.graphics.ParticleEmitterBox2D;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.davidhan.sloppydog.app.IApp;
@@ -22,7 +23,7 @@ import java.util.Random;
  * author: david
  * Copyright (c) 2016 David Han
  **/
-public class Target extends PhysicalEntity {
+public class Apple extends PhysicalEntity {
     public static final String TAG = "target";
     boolean repositionFlag = false;
     Sprite shadow;
@@ -31,7 +32,7 @@ public class Target extends PhysicalEntity {
     boolean flash = false;
 
 
-    public Target(IApp iApp, Body body) {
+    public Apple(IApp iApp, Body body) {
         super(iApp, body);
         reposition();
         body.setUserData(this);

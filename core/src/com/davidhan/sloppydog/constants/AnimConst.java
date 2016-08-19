@@ -14,4 +14,5 @@ public class AnimConst {
     public static final float DUR_TRANSITION = 0.15f;
     public static final float ANIM_FRAME_RATE = 0.1f;
     public static final float DUR_SUPER_SHOT = 0.05f;
+    public static final float ANIM_FRAME_RATE_SLOWER = 0.125f;
 }

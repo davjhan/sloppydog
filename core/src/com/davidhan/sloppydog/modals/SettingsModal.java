@@ -16,6 +16,7 @@ import com.davidhan.sloppydog.uireusables.ListItem;
 public class SettingsModal extends ModalBase {
     public SettingsModal(IApp iApp) {
         super(iApp);
+        begin();
     }
 
     @Override

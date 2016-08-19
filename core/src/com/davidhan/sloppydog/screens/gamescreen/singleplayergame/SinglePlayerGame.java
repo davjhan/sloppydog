@@ -9,8 +9,7 @@ import com.davidhan.sloppydog.screens.gamescreen.GameScreen;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.BodyFactory;
 import com.davidhan.sloppydog.screens.gamescreen.entities.BgGrass;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Dog;
-import com.davidhan.sloppydog.screens.gamescreen.entities.Door;
-import com.davidhan.sloppydog.screens.gamescreen.entities.Target;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 
 
 /**
@@ -23,13 +22,14 @@ import com.davidhan.sloppydog.screens.gamescreen.entities.Target;
 public class SinglePlayerGame extends GameScreen {
     SinglePlayerGui gui;
 
-      Target ball;
+    Apple ball;
     Dog dog;
-    Door door;
-    Target target;
+    //Door door;
+    Apple apple;
     BgGrass bgGrass;
     SinglePlayerGameLog gameLog;
     SinglePlayerPauseMenu pauseMenu;
+    SPGameOverMenu gameOverMenu;
 
     public SinglePlayerGame(IApp iApp) {
         super(iApp);
@@ -50,13 +50,13 @@ public class SinglePlayerGame extends GameScreen {
         // Create our body definition
         BodyFactory.createSideWalls(world);
         BodyFactory.createTopAndBottomWalls(world, GameConst.Arm.P0_STARTING_X, GameConst.Arm.P1_STARTING_X);
-        door = new Door(BodyFactory.createDoor(world));
+       // door = new Door(BodyFactory.createDoor(world));
     }
 
     private void spawnBall() {
-          ball = new Target(iApp, BodyFactory.createBall(world));
-          ball.setBodyPos(GameConst.Ball.STARTING_X, GameConst.Ball.STARTING_Y);
-           entitiesGroup.spawn(ball);
+        ball = new Apple(iApp, BodyFactory.createBall(world));
+        ball.setBodyPos(GameConst.Ball.STARTING_X, GameConst.Ball.STARTING_Y);
+        entitiesGroup.spawn(ball);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SinglePlayerGame extends GameScreen {
             onTouchedDown();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            dog.face(target.body().getPosition());
+            dog.face(apple.body().getPosition());
         }
 
     }
@@ -86,9 +86,9 @@ public class SinglePlayerGame extends GameScreen {
         gui.newGame();
         // spawnBall();
 
-        target = new Target(iApp, BodyFactory.createTarget(world));
-        target.body().setTransform(3,GameConst.World.HEIGHT-7,0);
-        entitiesGroup.spawn(target);
+        apple = new Apple(iApp, BodyFactory.createTarget(world));
+        apple.body().setTransform(3, GameConst.World.HEIGHT - 7, 0);
+        entitiesGroup.spawn(apple);
         spawnDog();
     }
 
@@ -108,7 +108,7 @@ public class SinglePlayerGame extends GameScreen {
         dog = new Dog(iApp, world, 0);
         // door.setArm(dog);
         entitiesGroup.spawn(dog);
-        dog.setTarget(target.body());
+        dog.setTarget(apple.body());
         dog.translateBodiesTo(GameConst.Dog.STARTING_X, GameConst.Dog.STARTING_Y);
     }
 
@@ -120,10 +120,12 @@ public class SinglePlayerGame extends GameScreen {
 
     @Override
     public void endGame() {
-        Gdx.app.log("tttt SinglePlayerGame", "game ended"+gameEnded);
         gameEnded = true;
         gui.endGame();
+        dog.die();
 
+        gameOverMenu = new SPGameOverMenu(iApp,this,gameLog);
+        iApp.modalStage().addActor(gameOverMenu);
     }
 
     @Override
@@ -141,7 +143,7 @@ public class SinglePlayerGame extends GameScreen {
     @Override
     public void startPauseMenu() {
         paused = true;
-        pauseMenu = new SinglePlayerPauseMenu(iApp,new SinglePlayerPauseMenu.PauseMenuListener(){
+        pauseMenu = new SinglePlayerPauseMenu(iApp, new SinglePlayerPauseMenu.PauseMenuListener() {
             @Override
             public void resume() {
                 SinglePlayerGame.this.resumeGame();
@@ -180,7 +182,7 @@ public class SinglePlayerGame extends GameScreen {
         dog.setRunning(false);
     }
 
-    private boolean gameRunning() {
+    public boolean gameRunning() {
         return !gameEnded && gameStarted;
     }
 
@@ -196,8 +198,9 @@ public class SinglePlayerGame extends GameScreen {
 
     @Override
     protected void onUpdateRunning(float delta) {
-        gameLog.update(delta);
-        door.checkDoor(world);
+        if (gameRunning()) {
+            gameLog.update(delta);
+        }
     }
 
     public SinglePlayerGameLog getGameLog() {

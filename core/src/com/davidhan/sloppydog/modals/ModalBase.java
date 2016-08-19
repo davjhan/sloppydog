@@ -40,6 +40,10 @@ public abstract class ModalBase extends GameGroup {
     public ModalBase(IApp iApp, boolean cancelable) {
         this.iApp = iApp;
         this.cancelable = cancelable;
+
+    }
+
+    protected void begin(){
         makeDim();
         makeTable();
         spawn(dim);

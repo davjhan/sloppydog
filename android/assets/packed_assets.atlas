@@ -1,124 +1,131 @@
 
 packed_assets.png
-size: 1024,256
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 apple
   rotate: false
-  xy: 2, 2
+  xy: 2, 24
   size: 160, 160
   orig: 160, 160
   offset: 0, 0
   index: -1
+apple-icon
+  rotate: false
+  xy: 2, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
 ball
   rotate: false
-  xy: 720, 152
+  xy: 388, 164
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 bg-ninepatches
   rotate: false
-  xy: 364, 196
+  xy: 646, 458
   size: 192, 48
   orig: 192, 48
   offset: 0, 0
   index: -1
 btn-ninepatch
   rotate: false
-  xy: 326, 67
+  xy: 326, 89
   size: 60, 95
   orig: 60, 95
   offset: 0, 0
   index: -1
 dog-arm
   rotate: false
-  xy: 326, 8
-  size: 20, 15
-  orig: 20, 15
+  xy: 598, 314
+  size: 20, 30
+  orig: 20, 30
   offset: 0, 0
   index: -1
 dog-head
   rotate: false
-  xy: 2, 164
-  size: 360, 80
-  orig: 360, 80
+  xy: 2, 186
+  size: 480, 320
+  orig: 480, 320
   offset: 0, 0
   index: -1
 dog-link
   rotate: false
-  xy: 364, 164
+  xy: 840, 476
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
   index: -1
 link
   rotate: false
-  xy: 364, 164
+  xy: 840, 476
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
   index: -1
 dog-tail
   rotate: false
-  xy: 326, 25
-  size: 40, 40
-  orig: 40, 40
+  xy: 164, 42
+  size: 80, 40
+  orig: 80, 40
   offset: 0, 0
   index: -1
 grass-tiles
   rotate: false
-  xy: 834, 199
+  xy: 646, 411
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 hand
   rotate: false
-  xy: 558, 144
+  xy: 164, 84
   size: 160, 100
   orig: 160, 100
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 388, 142
+  xy: 246, 62
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 list-item-bg-nine
   rotate: false
-  xy: 881, 232
+  xy: 164, 28
   size: 24, 12
   orig: 24, 12
   offset: 0, 0
   index: -1
 palette
   rotate: false
-  xy: 720, 174
+  xy: 484, 274
   size: 112, 70
   orig: 112, 70
   offset: 0, 0
   index: -1
 pause-button
   rotate: false
-  xy: 406, 164
+  xy: 484, 242
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
   index: -1
 shadow
   rotate: false
-  xy: 164, 2
+  xy: 484, 346
   size: 160, 160
   orig: 160, 160
   offset: 0, 0
   index: -1
 shaft
   rotate: false
-  xy: 834, 177
+  xy: 646, 389
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

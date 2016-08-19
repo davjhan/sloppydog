@@ -34,30 +34,41 @@ public class BodyFactory extends Body {
     public static void createTopAndBottomWalls(World world,float p0x,float p1x) {
         Body body = world.createBody(new BodyDef());
         PolygonShape groundBox = new PolygonShape();
-        //Bottomleft
-        groundBox.setAsBox(
-                (p0x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
-                GameConst.BOUNDS.WALL_THICKNESS,
-                new Vector2(
-                        (p0x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
-                        - GameConst.BOUNDS.WALL_THICKNESS+GameConst.Hud.BOTTOM
-                ),
-                0
-        );
-        //Bottom right
-        float botRightWidth = (GameConst.World.WIDTH- GameConst.BOUNDS.DOOR_HALF_WIDTH-p0x) /2;
-        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
-        groundBox.setAsBox(
-                botRightWidth,
-                GameConst.BOUNDS.WALL_THICKNESS,
-                new Vector2(
-                        GameConst.World.WIDTH-botRightWidth,
-                        - GameConst.BOUNDS.WALL_THICKNESS+GameConst.Hud.BOTTOM
-                ),
-                0
-        );
-        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
+//        //Bottomleft
+//        groundBox.setAsBox(
+//                (p0x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+//                GameConst.BOUNDS.WALL_THICKNESS,
+//                new Vector2(
+//                        (p0x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
+//                        - GameConst.BOUNDS.WALL_THICKNESS+GameConst.Hud.BOTTOM
+//                ),
+//                0
+//        );
+//        //Bottom right
+//        float botRightWidth = (GameConst.World.WIDTH- GameConst.BOUNDS.DOOR_HALF_WIDTH-p0x) /2;
+//        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
+//        groundBox.setAsBox(
+//                botRightWidth,
+//                GameConst.BOUNDS.WALL_THICKNESS,
+//                new Vector2(
+//                        GameConst.World.WIDTH-botRightWidth,
+//                        - GameConst.BOUNDS.WALL_THICKNESS+GameConst.Hud.BOTTOM
+//                ),
+//                0
+//        );
+     //   body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
         // body.createFixture(groundBox, 0.0f);
+        //Bottom
+        groundBox.setAsBox(
+                GameConst.World.HALF_WIDTH,
+                GameConst.BOUNDS.WALL_THICKNESS,
+                new Vector2(
+                        GameConst.World.HALF_WIDTH,
+                        -GameConst.BOUNDS.WALL_THICKNESS+GameConst.Hud.BOTTOM
+                ),
+                0
+        );
+        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
         //Top
         groundBox.setAsBox(
                 GameConst.World.HALF_WIDTH,

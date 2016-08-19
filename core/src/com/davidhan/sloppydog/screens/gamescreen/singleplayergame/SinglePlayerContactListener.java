@@ -8,7 +8,7 @@ import com.davidhan.sloppydog.constants.SPGameRules;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.GameContactListener;
 import com.davidhan.sloppydog.screens.gamescreen.entities.BodyEntity;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Dog;
-import com.davidhan.sloppydog.screens.gamescreen.entities.Target;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 
 
 /**
@@ -30,13 +30,16 @@ public class SinglePlayerContactListener extends GameContactListener {
     public void beginContact(Contact contact) {
       //  PhysicalEntity a = (PhysicalEntity)contact.getFixtureA().getBody().getUserData();
       //  PhysicalEntity b = (PhysicalEntity)contact.getFixtureB().getBody().getUserData();
-        if(between(contact, Dog.TAG, Target.TAG)){
+        if(between(contact, Dog.TAG, Apple.TAG)){
             if(oneFixtureIsTag(contact, Dog.HEAD)){
-                singlePlayerGame.getGameLog().changeHunger(SPGameRules.Hunger.FOOD_FILL);
-                Target target = (Target) getEntityByTag(contact,Target.TAG);
-                target.flagForReposition();
-                singlePlayerGame.incrementScore();
-
+                if(singlePlayerGame.gameRunning()) {
+                    singlePlayerGame.getGameLog().changeHunger(SPGameRules.Hunger.FOOD_FILL);
+                    Apple apple = (Apple) getEntityByTag(contact, Apple.TAG);
+                    Dog dog = (Dog) getEntityByTag(contact, Dog.TAG);
+                    dog.flagGrow(1);
+                    apple.flagForReposition();
+                    singlePlayerGame.incrementScore();
+                }
             }
         }
         if(oneFixtureIsTag(contact, Dog.HEAD)){

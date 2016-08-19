@@ -11,7 +11,7 @@ import com.davidhan.sloppydog.screens.gamescreen.GameLog;
  * Copyright (c) 2016 David Han
  **/
 public class SinglePlayerGameLog extends GameLog {
-    private int score;
+    private int score = 0;
     private float hunger;
     private SinglePlayerGame game;
     public SinglePlayerGameLog(SinglePlayerGame game){

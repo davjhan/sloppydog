@@ -22,10 +22,10 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 public class BodyFactoryUtils {
     private static float pi = 3.14159f;
 
-    public static RevoluteJointDef getLinkRevoluteJointDef(float maxAngle){
+    public static RevoluteJointDef getLinkRevoluteJointDef(float maxAngleDeg){
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-        revoluteJointDef.lowerAngle = -maxAngle * pi; // -90 degrees
-        revoluteJointDef.upperAngle = maxAngle * pi; // 45 degrees
+        revoluteJointDef.lowerAngle = -maxAngleDeg*MathUtils.degRad; // -90 degrees
+        revoluteJointDef.upperAngle = maxAngleDeg*MathUtils.degRad; // 45 degrees
         revoluteJointDef.collideConnected = false;
         revoluteJointDef.localAnchorB.set(0, -com.davidhan.sloppydog.constants.GameConst.Arm.LINK_HALF_LENGTH);
         revoluteJointDef.enableLimit = true;
@@ -100,7 +100,7 @@ public class BodyFactoryUtils {
         setRevolutionMax(revDef,revolutionMaxDeg,0);
     }
     public static void setRevolutionMax(RevoluteJointDef revDef,float revolutionMaxDeg,float offsetDeg) {
-        revDef.lowerAngle = (offsetDeg-revolutionMaxDeg)* MathUtils.degRad;
-        revDef.upperAngle = (offsetDeg+revolutionMaxDeg)* MathUtils.degRad;
+        revDef.lowerAngle = (revolutionMaxDeg-offsetDeg)* MathUtils.degRad;
+        revDef.upperAngle = (revolutionMaxDeg+offsetDeg)* MathUtils.degRad;
     }
 }

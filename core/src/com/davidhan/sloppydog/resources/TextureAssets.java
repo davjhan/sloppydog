@@ -22,12 +22,14 @@ public class TextureAssets extends TextureCutter {
     public TextureRegion dogHeadFrames[][];
     public Animation dogHeadChomp;
     public Animation dogHeadIdle;
-    public TextureRegion[][] link;
-    public TextureRegion[] dogArm;
+    public Animation dogHeadDead;
+    public TextureRegion[]dogLink;
+    public TextureRegion[][] dogArm;
     public TextureRegion ball;
+    public TextureRegion appleIcon;
     public TextureRegion[] apple;
     public TextureRegion[] shadow;
-    public TextureRegion dogTail;
+    public TextureRegion[] dogTail;
     public TextureRegion[] grassTiles;
     public TextureRegion[] pauseButton;
 
@@ -44,20 +46,24 @@ public class TextureAssets extends TextureCutter {
 
         dogHeadFrames = cut(atlas,"dog-head",60,40);
 
-        dogHeadChomp = new Animation(AnimConst.ANIM_FRAME_RATE,getFramesConsecutive(dogHeadFrames[0],0,5),
+        dogHeadChomp = new Animation(AnimConst.ANIM_FRAME_RATE,getFramesConsecutive(dogHeadFrames[1],0,5),
                 Animation.PlayMode.LOOP
         );
-        dogHeadIdle = new Animation(AnimConst.ANIM_FRAME_RATE,getFramesConsecutive(dogHeadFrames[0],0,1),
+        dogHeadIdle = new Animation(AnimConst.ANIM_FRAME_RATE_SLOWER,getFramesConsecutive(dogHeadFrames[0],0,8),
                 Animation.PlayMode.LOOP
         );
-        dogArm = cutLinear(atlas,"dog-arm",10,14);
+        dogHeadDead = new Animation(AnimConst.ANIM_FRAME_RATE,getFramesConsecutive(dogHeadFrames[2],0,1),
+                Animation.PlayMode.NORMAL
+        );
+        dogArm = cut(atlas,"dog-arm",10,14);
         grassTiles = cutLinear(atlas,"grass-tiles",15,15);
-        link = cut(atlas,"link",20,30);
+        dogLink = cutLinear(atlas,"dog-link",20,30);
+        appleIcon = cutSingle(atlas,"apple-icon");
         ball = cutSingle(atlas,"ball");
         apple = cutLinear(atlas,"apple",40,40);
         shadow = cutLinear(atlas,"shadow",40,40);
         pauseButton = cutLinear(atlas,"pause-button",20,30);
-        dogTail = cutSingle(atlas,"dog-tail");
+        dogTail = cutLinear(atlas,"dog-tail",40,40);
         //handAnimation = new Animation(0.16f, Array.with(hand), Animation.PlayMode.NORMAL);
     }
 

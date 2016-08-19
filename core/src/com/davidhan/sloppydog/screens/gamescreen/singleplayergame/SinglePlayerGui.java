@@ -1,20 +1,24 @@
 package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.Display;
+import com.davidhan.sloppydog.constants.GameConst;
+import com.davidhan.sloppydog.constants.Spacing;
 import com.davidhan.sloppydog.resources.ColorNames;
 import com.davidhan.sloppydog.resources.FontAssets;
 import com.davidhan.sloppydog.screens.gamescreen.Controller;
 import com.davidhan.sloppydog.screens.gamescreen.hud.HungerMeter;
 import com.davidhan.sloppydog.screens.gamescreen.hud.OnScreenArrow;
 import com.davidhan.sloppydog.uireusables.GameGroup;
+import com.davidhan.sloppydog.uireusables.SolidDrawable;
 import com.davidhan.sloppydog.uireusables.scene2dhan.ClickListener;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanImageButton;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanLabel;
@@ -42,6 +46,7 @@ public class SinglePlayerGui extends GameGroup {
     HanLabel scoreCounter;
     HungerMeter hungerMeter;
     HanImageButton pauseButton;
+    ParticleEmitter particleEmitter;
     private boolean screenTouchDown;
 
     public SinglePlayerGui(IApp iApp, SinglePlayerGame game) {
@@ -52,6 +57,9 @@ public class SinglePlayerGui extends GameGroup {
     }
 
     private void makeHud() {
+        Image bg = new Image(new SolidDrawable(Display.WIDTH, GameConst.Hud.HEIGHT, Colors.get(ColorNames.HUNGER_METER_BG)));
+        inGame.spawn(bg,0,Display.HEIGHT,Align.topLeft);
+
         HanTextButton resetButton = new HanTextButton(iApp,"");
         resetButton.setSize(20,20);
 
@@ -63,24 +71,30 @@ public class SinglePlayerGui extends GameGroup {
         });
 
         hungerMeter = new HungerMeter(iApp, game.getGameLog().getHungerPercentage());
-        inGame.spawn(hungerMeter,0,Display.HEIGHT,Align.topLeft);
-
-        scoreCounter = new HanLabel(iApp,"0", FontAssets.Font.SGK, Colors.get(ColorNames.NEAR_BLACK));
-        inGame.spawn(scoreCounter,10, Display.HEIGHT-30,Align.topLeft);
-
-      //  inGame.addActor(resetButton);
-
         pauseButton = new HanImageButton(iApp,
                 new TextureRegionDrawable(iApp.res().textures.pauseButton[0]),
                 new TextureRegionDrawable(iApp.res().textures.pauseButton[1])
         );
-        inGame.spawn(pauseButton,Display.WIDTH,Display.HEIGHT,Align.topRight);
+
         pauseButton.setClickListener(new ClickListener() {
             @Override
             public void onClick() {
                 game.startPauseMenu();
             }
         });
+
+
+        Image appleIcon = new Image(iApp.res().textures.appleIcon);
+        appleIcon.setSize(20,20);
+        scoreCounter = new HanLabel(iApp,"0", FontAssets.Font.SPORTY, Colors.get(ColorNames.OFF_WHITE));
+        inGame.spawn(pauseButton,Display.WIDTH,Display.HEIGHT,Align.topRight);
+        inGame.spawn(appleIcon, Spacing.PAD_REG, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        inGame.spawn(scoreCounter,appleIcon.getRight()+ Spacing.PAD_SM, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        inGame.spawn(hungerMeter,scoreCounter.getRight()+Spacing.PAD_REG,Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        hungerMeter.setX(scoreCounter.getRight()+Spacing.PAD_REG);
+      //  inGame.addActor(resetButton);
+
+
        // inGame.spawn(resetButton);
     }
 
@@ -145,15 +159,16 @@ public class SinglePlayerGui extends GameGroup {
     public void newGame() {
         preGame.clear();
         postGame.clear();
-        HanLabel tapToResetLabel = new HanLabel(
-                iApp,"Tap to Start.",
-                FontAssets.Font.SGK,
-                Colors.get(ColorNames.NEAR_BLACK)
-        );
+//        HanLabel tapToResetLabel = new HanLabel(
+//                iApp,"Tap to Start.",
+//                FontAssets.Font.SGK,
+//                Colors.get(ColorNames.NEAR_BLACK)
+//        );
         inGame.clear();
         makeController(game);
         makeHud();
-        postGame.spawn(tapToResetLabel, Display.HALF_WIDTH,60,Align.bottom);
+
+        //postGame.spawn(tapToResetLabel, Display.HALF_WIDTH,60,Align.bottom);
     }
    public void startGame(){
         preGame.clear();
@@ -162,5 +177,7 @@ public class SinglePlayerGui extends GameGroup {
 
     public void setScore(int score) {
         scoreCounter.setText(String.valueOf(score));
+        scoreCounter.layout();
+        hungerMeter.setX(scoreCounter.getRight()+Spacing.PAD_REG*((int)Math.log10(score)+1));
     }
 }

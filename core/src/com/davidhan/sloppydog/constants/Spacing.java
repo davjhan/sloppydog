@@ -9,10 +9,10 @@ package com.davidhan.sloppydog.constants;
  **/
 public class Spacing {
     /** 4 */
-    public static final int PAD_SM = 4;
+    public static final int PAD_SM = 2;
 
     /** 8 */
-    public static final int PAD_REG = 8;
+    public static final int PAD_REG = 4;
 
 
     /** 12 */

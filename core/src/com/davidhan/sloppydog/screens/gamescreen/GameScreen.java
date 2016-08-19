@@ -115,7 +115,7 @@ public abstract class GameScreen extends com.davidhan.sloppydog.screens.ScreenBa
 
     @Override
     protected void update(float delta) {
-        if (!paused && gameStarted) {
+        if (!paused) {
             world.step(1f / 60f, 6, 6);
             onUpdateRunning(delta);
             checkKeys();
@@ -136,8 +136,8 @@ public abstract class GameScreen extends com.davidhan.sloppydog.screens.ScreenBa
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.SPACE) {
-            if (gameStarted || gameEnded) {
-                restartGame();
+            if (gameStarted) {
+                endGame();
             } else {
                 startGame();
             }

@@ -51,12 +51,12 @@ public class Arm extends CompoundPhysicalEntity implements Grabber {
 
         shaftOutlineSprites = new ArrayList<Sprite>();
         for (int i = 0; i < links.size(); i++) {
-            Sprite shaftSprite = new Sprite(iApp.res().textures.link[playerNum][1]);
-            Sprite shaftOutlineSprite = new Sprite(iApp.res().textures.link[playerNum][0]);
-            shaftSprite.setOriginCenter();
-            shaftOutlineSprite.setOriginCenter();
-            shaftSprites.add(shaftSprite);
-            shaftOutlineSprites.add(shaftOutlineSprite);
+            //Sprite shaftSprite = new Sprite(iApp.res().textures.dogLink[playerNum][1]);
+            //Sprite shaftOutlineSprite = new Sprite(iApp.res().textures.dogLink[playerNum][0]);
+           // shaftSprite.setOriginCenter();
+           // shaftOutlineSprite.setOriginCenter();
+           // shaftSprites.add(shaftSprite);
+           // shaftOutlineSprites.add(shaftOutlineSprite);
         }
         handSprite = new Sprite(iApp.res().textures.hand[playerNum][0]);
       //  handSprite.play();
