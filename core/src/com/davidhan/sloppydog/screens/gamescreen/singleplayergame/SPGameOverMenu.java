@@ -60,7 +60,7 @@ public class SPGameOverMenu extends ModalBase {
         table.row();
         table.add(scoreAndTotalTable).expandX().fillX();
         table.row();
-        table.add(newGameLabel).spaceTop(Spacing.LARGE).fillX();
+        table.add(newGameLabel).spaceTop(Spacing.LARGE).height(32).fillX();
     }
 
     @Override
@@ -120,10 +120,10 @@ public class SPGameOverMenu extends ModalBase {
         totalApplesLabel.setAlignment(Align.right);
         table.pad(Spacing.REG);
         table.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[1]));
-        table.add(lifetimeLabel).right().spaceBottom(Spacing.SMALL);
+        table.add(lifetimeLabel).right().expandX().spaceBottom(Spacing.SMALL).colspan(2);
         table.row();
-        table.add(new Image(iApp.res().textures.appleIcon)).left();
-        table.add(totalApplesLabel).expandX().fillX().right();
+       // table.add(new Image(iApp.res().textures.appleIcon)).left();
+        table.add(totalApplesLabel).fillX().right();
         table.pack();
         return table;
     }
@@ -134,7 +134,7 @@ public class SPGameOverMenu extends ModalBase {
                 new HanLabel(iApp, "LEVEL 1", HanSkin.LabelStyles.TITLE));
         table.pad(Spacing.REG);
         table.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[1]));
-        table.add(titleLabel).expandX().fillX().top();
+        table.add( new HanLabel(iApp, "LEVEL 1", HanSkin.LabelStyles.TITLE)).expandX().fillX().top();
         table.row();
         table.pack();
         return table;
