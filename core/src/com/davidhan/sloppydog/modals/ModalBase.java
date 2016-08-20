@@ -15,6 +15,7 @@ import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.AnimConst;
 import com.davidhan.sloppydog.constants.Display;
 import com.davidhan.sloppydog.constants.Spacing;
+import com.davidhan.sloppydog.constants.UIConst;
 import com.davidhan.sloppydog.resources.ColorNames;
 import com.davidhan.sloppydog.uireusables.GameGroup;
 import com.davidhan.sloppydog.uireusables.SolidDrawable;
@@ -51,7 +52,10 @@ public abstract class ModalBase extends GameGroup {
         setTableEnterAction();
         setLocked(true);
     }
-
+    protected void setTableFullWidth(Table table){
+        table.setWidth(Display.WIDTH- UIConst.Modal.SIDE_PAD*2);
+        table.setX(Display.WIDTH/2-table.getWidth()/2);
+    }
     private void setTableEnterAction() {
         table.moveBy(0,-10);
         table.addAction(Actions.sequence(
@@ -72,7 +76,7 @@ public abstract class ModalBase extends GameGroup {
     private void makeTable() {
         table = new HanTable(iApp);
         table.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[0]));
-        table.pad(Spacing.PAD_MD);
+        table.pad(Spacing.LARGE);
         initContents();
         table.pack();
         table.addListener(new ClickListener());

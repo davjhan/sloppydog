@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidhan.sloppydog.constants.GameConst;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Wall;
 
 /**
  * name: Boundaries
@@ -34,6 +35,7 @@ public class BodyFactory extends Body {
     public static void createTopAndBottomWalls(World world,float p0x,float p1x) {
         Body body = world.createBody(new BodyDef());
         PolygonShape groundBox = new PolygonShape();
+        Fixture wallFixture;
 //        //Bottomleft
 //        groundBox.setAsBox(
 //                (p0x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
@@ -68,7 +70,9 @@ public class BodyFactory extends Body {
                 ),
                 0
         );
-        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture = body.createFixture(groundBox,0);
+        wallFixture.setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture.setFilterData(CollisionGroups.FILTER_WALL());
         //Top
         groundBox.setAsBox(
                 GameConst.World.HALF_WIDTH,
@@ -79,7 +83,9 @@ public class BodyFactory extends Body {
                 ),
                 0
         );
-        body.createFixture(groundBox,0).setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture = body.createFixture(groundBox,0);
+        wallFixture.setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture.setFilterData(CollisionGroups.FILTER_WALL());
 //        //Top Left
 //        groundBox.setAsBox(
 //                (p1x- GameConst.BOUNDS.DOOR_HALF_WIDTH)/2,
@@ -103,12 +109,13 @@ public class BodyFactory extends Body {
 //                0
 //        );
 
+        body.setUserData(Wall.TAG);
 
     }
     public static Body createSideWalls(World world) {
         Body body = world.createBody(new BodyDef());
         PolygonShape groundBox = new PolygonShape();
-
+        Fixture wallFixture;
         // body.createFixture(groundBox, 0.0f);
 
         //left
@@ -116,16 +123,22 @@ public class BodyFactory extends Body {
                 GameConst.BOUNDS.WALL_THICKNESS,
                 GameConst.World.HEIGHT,
                 new Vector2(-GameConst.BOUNDS.WALL_THICKNESS, 0), 0);
-        body.createFixture(groundBox, 0.0f).setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture = body.createFixture(groundBox,0);
+        wallFixture.setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture.setFilterData(CollisionGroups.FILTER_WALL());
 
         //right
         groundBox.setAsBox(
                 GameConst.BOUNDS.WALL_THICKNESS,
                 GameConst.World.HEIGHT,
                 new Vector2(GameConst.World.WIDTH + GameConst.BOUNDS.WALL_THICKNESS, 0), 0);
-        body.createFixture(groundBox, 0.0f).setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture = body.createFixture(groundBox,0);
+        wallFixture.setUserData(GameConst.BOUNDS.WALL_TAG);
+        wallFixture.setFilterData(CollisionGroups.FILTER_WALL());
         // Clean up after ourselves
         groundBox.dispose();
+
+        body.setUserData(Wall.TAG);
         return body;
     }
 
@@ -163,7 +176,7 @@ public class BodyFactory extends Body {
         Body body = world.createBody(bodyDef);
 
         CircleShape shoulderShape = new CircleShape();
-        shoulderShape.setRadius(GameConst.TARGET.RADIUS);
+        shoulderShape.setRadius(GameConst.Apple.RADIUS);
         FixtureDef fixtureDef = new FixtureDef();
       //  fixtureDef.isSensor = true;
         fixtureDef.shape = shoulderShape;

@@ -2,7 +2,9 @@ package com.davidhan.sloppydog;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -17,7 +19,9 @@ public class Armball extends Game implements IApp{
 	private Assets assets;
     private Stage modalStage;
     InputMultiplexer inputMultiplexer;
-	@Override
+    private boolean modalDebugAll =false;
+
+    @Override
 	public void create () {
 		assets = new Assets();
 
@@ -56,6 +60,51 @@ public class Armball extends Game implements IApp{
     public void setScreen(Screen screen) {
         inputMultiplexer.clear();
         inputMultiplexer.addProcessor(modalStage);
+        inputMultiplexer.addProcessor(new InputProcessor() {
+            @Override
+            public boolean keyDown(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                if(keycode == Input.Keys.M){
+                    modalDebugAll = !modalDebugAll;
+                    modalStage().setDebugAll(modalDebugAll);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return false;
+            }
+
+            @Override
+            public boolean scrolled(int amount) {
+                return false;
+            }
+        });
         inputMultiplexer.addProcessor(((IScreen)screen).getInputProcessor());
         inputMultiplexer.addProcessor(((IScreen)screen).getStage());
         super.setScreen(screen);

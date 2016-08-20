@@ -8,10 +8,14 @@ package com.davidhan.sloppydog.constants;
  * Copyright (c) 2016 David Han
  **/
 public class SPGameRules {
-    public class Hunger{
+    public static class Hunger{
         public static final float MAX = 1000;
         public static final float INITIAL = 750;
         public static final float DIMINISH_RATE_PER_FRAME = MAX/(60*15);
         public static final float FOOD_FILL = 200f;
+
+        public static float getAppleFillAmount(int score ){
+            return 100+10*score;
+        }
     }
 }

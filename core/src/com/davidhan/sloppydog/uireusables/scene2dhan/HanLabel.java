@@ -51,4 +51,11 @@ public class HanLabel extends Label {
             setText(getText().toString().toUpperCase());
         }
     }
+
+    public void setFontColor(Color fontColor) {
+        LabelStyle style = new LabelStyle(getStyle());
+        style.fontColor = fontColor;
+        setStyle(style);
+    }
+
 }

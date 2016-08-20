@@ -38,18 +38,24 @@ public class GameConst {
         public static final float P1_STARTING_Y = Display.WORLD_HEIGHT-STARTING_Y_DIST+3;
     }
     public class Dog{
-        public static final float REVOLUTE_JOINT_MAX_ANGLE = 30;
+        public static final float REVOLUTE_JOINT_MAX_ANGLE = 40;
+        public static final float LINEAR_DAMPING = 0.1f;
 
         public class Torso {
-            public static final float NUM_LINKS = 3;
+            public static final int NUM_LINKS = 3;
+            public static final int MAX_LINKS = 40;
             public static final float RADIUS = 1f;
             public static final float LINK_HALF_LENGTH = 0.6f;
+            public static final float DENSITY = 0.1f;
         }
         public class Head {
             public static final float RADIUS = 1.5f;
+            public static final float MOUTH_RADIUS = 1.2f;
+            public static final float DENSITY = 3;
         }
         public class Tail {
             public static final float RADIUS = 1.5f;
+            public static final float DENSITY = 2;
         }
         public class Arm{
             public static final float NUM_LINKS = 6;
@@ -57,14 +63,9 @@ public class GameConst {
             public static final float LINK_HALF_LENGTH = 0.4f;
             public static final float REVOLUTE_JOINT_MAX_ANGLE = 25;
         }
-        public class Butt{
-            public static final float NUM_LINKS = 5;
-            public static final float RADIUS = 1.5f;
-            public static final float HALF_LENGTH = 0.75f;
-        }
         public static final float STARTING_Y= World.HALF_HEIGHT+6;
         public static final float STARTING_X= World.HALF_WIDTH;
-        public static final float IMPULSE_POWER = 50;
+        public static final float IMPULSE_POWER = 80;
 
 
 
@@ -76,6 +77,8 @@ public class GameConst {
         public static final float HALF_WIDTH = 13.5f;
         public static final int HEIGHT = 48;
         public static final float HALF_HEIGHT = 24;
+        public static final float BOTTOM_PAD = Hud.BOTTOM/SCALE;
+        public static final float TOP_PAD = Hud.HEIGHT/SCALE;
     }
     public class BOUNDS{
         public static final float DOOR_HALF_WIDTH = Dog.Torso.RADIUS+1f;
@@ -97,7 +100,7 @@ public class GameConst {
         public static final int HAPTIC_BUZZ_DUR = 10;
     }
 
-    public class TARGET {
+    public class Apple {
         public static final float RADIUS = 1f;
     }
 

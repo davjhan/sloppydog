@@ -15,6 +15,8 @@ import com.davidhan.sloppydog.screens.gamescreen.entities.BodyEntity;
 public abstract class GameContactListener implements ContactListener {
    private static BodyEntity beATemp;
    private static BodyEntity beBTemp;
+    private static String tempStringA;
+    private static String tempStringB;
     public static boolean oneFixtureIsTag(Contact contact, String tag) {
         return (contact.getFixtureA().getUserData() != null
                 && contact.getFixtureA().getUserData().equals(tag))
@@ -25,8 +27,16 @@ public abstract class GameContactListener implements ContactListener {
         return a.getTag().equals(tag) || b.getTag().equals(tag);
     }
     public static BodyEntity getEntityByTag(Contact contact, String tag) {
-        beATemp = (BodyEntity)contact.getFixtureB().getBody().getUserData();
-        beBTemp = (BodyEntity)contact.getFixtureA().getBody().getUserData();
+        if(contact.getFixtureA().getBody().getUserData() instanceof BodyEntity){
+            beATemp = (BodyEntity)contact.getFixtureA().getBody().getUserData();
+        }else{
+            return (BodyEntity)contact.getFixtureB().getBody().getUserData();
+        }
+        if(contact.getFixtureB().getBody().getUserData() instanceof BodyEntity){
+            beBTemp = (BodyEntity)contact.getFixtureB().getBody().getUserData();
+        }else{
+            return (BodyEntity)contact.getFixtureA().getBody().getUserData();
+        }
         return beATemp.getTag().equals(tag)?beATemp: beBTemp;
     }
     public static Fixture getFixtureByTag(Contact contact, String tag) {
@@ -37,9 +47,17 @@ public abstract class GameContactListener implements ContactListener {
         if(contact.getFixtureA().getBody().getUserData() == null || contact.getFixtureB().getBody().getUserData() == null){
             return false;
         }
-        beATemp = (BodyEntity)contact.getFixtureB().getBody().getUserData();
-        beBTemp = (BodyEntity)contact.getFixtureA().getBody().getUserData();
-        return((beATemp.getTag().equals(tag1) && beBTemp.getTag().equals(tag2)) ||
-                (beATemp.getTag().equals(tag2) && beBTemp.getTag().equals(tag1)));
+        if(contact.getFixtureA().getBody().getUserData() instanceof String){
+            tempStringA = (String)contact.getFixtureA().getBody().getUserData();
+        }else{
+            tempStringA = ((BodyEntity)contact.getFixtureA().getBody().getUserData()).getTag();
+        }
+        if(contact.getFixtureB().getBody().getUserData() instanceof String){
+            tempStringB = (String)contact.getFixtureB().getBody().getUserData();
+        }else{
+            tempStringB = ((BodyEntity)contact.getFixtureB().getBody().getUserData()).getTag();
+        }
+        return((tempStringA.equals(tag1) && tempStringB.equals(tag2)) ||
+                (tempStringA.equals(tag2) && tempStringB.equals(tag1)));
     }
 }

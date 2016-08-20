@@ -45,9 +45,9 @@ public class SinglePlayerPauseMenu extends ModalBase {
         });
 
 
-        table.add(title).spaceBottom(Spacing.SPACE_MD);
+        table.add(title).spaceBottom(Spacing.LARGE);
         table.row();
-        table.add(restart).fillX().spaceBottom(Spacing.SPACE_REG);
+        table.add(restart).fillX().spaceBottom(Spacing.REG);
         table.row();
         table.add(resume).fillX();
     }

@@ -13,14 +13,14 @@ apple
   index: -1
 apple-icon
   rotate: false
-  xy: 2, 2
-  size: 20, 20
-  orig: 20, 20
+  xy: 646, 393
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 388, 164
+  xy: 2, 2
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -90,7 +90,7 @@ hand
   index: -1
 knob
   rotate: false
-  xy: 246, 62
+  xy: 388, 164
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -125,7 +125,7 @@ shadow
   index: -1
 shaft
   rotate: false
-  xy: 646, 389
+  xy: 246, 62
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

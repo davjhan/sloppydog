@@ -27,6 +27,8 @@ public class HanSkin extends Skin {
 
     public class LabelStyles {
         public static final String TITLE = "title";
+        public static final String BIG = "big";
+        public static final String EXTRABIG = "extra-big";
     }
 
     public HanSkin(Assets assets) {
@@ -43,25 +45,33 @@ public class HanSkin extends Skin {
         add(LabelStyles.TITLE,
                 new Label.LabelStyle(getFont(FontAssets.Font.SPORTY), Colors.get(ColorNames.NEAR_BLACK))
         );
+        add(LabelStyles.BIG,
+                new Label.LabelStyle(getFont(FontAssets.Font.SPORTY_32), Colors.get(ColorNames.NEAR_BLACK))
+        );
+        add(LabelStyles.EXTRABIG,
+                new Label.LabelStyle(getFont(FontAssets.Font.SPORTY_48), Colors.get(ColorNames.NEAR_BLACK))
+        );
     }
 
     private void initButtonStyles(Assets assets) {
-        add(DEFAULT, makeButtonStyle(assets, 0, 1, FontAssets.Font.SPORTY_BTN_REG));
-        add(ButtonStyles.PRIMARY, makeButtonStyle(assets, 2, 3, FontAssets.Font.SPORTY_BTN_PRIMARY));
-        add(DISABLED, makeButtonStyle(assets, 4, 5, FontAssets.Font.SPORTY_BTN_DISABLED));
+        add(DEFAULT, makeButtonStyle(assets, 0, 1, FontAssets.Font.SPORTY,ColorNames.BTN_REGULAR_TEXT));
+        add(ButtonStyles.PRIMARY, makeButtonStyle(assets, 2, 3, FontAssets.Font.SPORTY,ColorNames.OFF_WHITE));
+        add(DISABLED, makeButtonStyle(assets, 4, 5, FontAssets.Font.SPORTY,ColorNames.BTN_DISABLED_TEXT));
 
     }
 
-    private Object makeButtonStyle(Assets assets, int downIndex, int upIndex, String fontName) {
+    private Object makeButtonStyle(Assets assets, int downIndex, int upIndex, String fontName,String colorName) {
+
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(
                 new NinePatchDrawable(assets.textures.buttonNinePatches[downIndex]),
                 new NinePatchDrawable(assets.textures.buttonNinePatches[upIndex]),
                 new NinePatchDrawable(assets.textures.buttonNinePatches[downIndex]),
                 getFont(fontName)
         );
-        style.checkedOffsetY = 1;
-        style.pressedOffsetY = -1;
-        style.unpressedOffsetY = 1;
+        style.fontColor = Colors.get(colorName);
+        style.checkedOffsetY = 0;
+        style.pressedOffsetY = -2;
+        style.unpressedOffsetY = 0;
 
         return style;
     }
@@ -76,6 +86,16 @@ public class HanSkin extends Skin {
                 e.printStackTrace();
             }
         }
+        getFont(FontAssets.Font.SPORTY_32).getData().markupEnabled = true;
+        //getFont(FontAssets.Font.SPORTY).getData().capHeight = 4;
+        getFont(FontAssets.Font.SPORTY).getData().ascent = 3;
+        getFont(FontAssets.Font.SPORTY).getData().descent = 0;
+
+        getFont(FontAssets.Font.SPORTY_32).getData().ascent = 5;
+        getFont(FontAssets.Font.SPORTY_32).getData().descent = 0;
+
+        getFont(FontAssets.Font.SPORTY_48).getData().ascent = 7;
+        getFont(FontAssets.Font.SPORTY_48).getData().descent = 0;
         getFont(FontAssets.Font.SGK_PARAGRAPH).getData().setLineHeight(16);
     }
 }

@@ -30,7 +30,7 @@ public class SettingsModal extends ModalBase {
                 Gdx.app.log("tttt SettingsModal", "reset game");
             }
         }, "Reset Game");
-        table.add(title).spaceBottom(com.davidhan.sloppydog.constants.Spacing.SPACE_MD);
+        table.add(title).spaceBottom(com.davidhan.sloppydog.constants.Spacing.LARGE);
         table.row();
         table.add(versionLabel).fillX();
         table.row();

@@ -13,6 +13,7 @@ public class CollisionGroups {
     public static short DEFAULT = 1<<1;
     public static short DOG_TORSO = 1<<2;
     public static short DOG_EXTRAS = 1<<3;
+    public static short WALL = 1<<4;
     public static short ARM_LINK_1 = 0x0100;
     public static short HAND = 0x1000;
 
@@ -26,6 +27,17 @@ public class CollisionGroups {
         filter.categoryBits = DOG_EXTRAS;
         filter.maskBits = ~0;
         filter.maskBits &= ~DOG_TORSO;
+        return filter;
+    }
+    public static Filter FILTER_WALL(){
+        Filter filter = new Filter();
+        filter.categoryBits = WALL;
+        return filter;
+    }
+    public static Filter FILTER_NON_WALL_CLIP(){
+        Filter filter = new Filter();
+        filter.maskBits = ~0;
+        filter.maskBits &= ~WALL;
         return filter;
     }
 }

@@ -28,6 +28,7 @@ public class Dog extends CompoundPhysicalEntity {
     public static final String TAG = "dog";
     public static final String SHAFT = "dog_shaft";
     public static final String HEAD = "dog_head";
+    public static final String MOUTH = "dog_mouth";
     public static final String ARM = "dog_arm";
     public static final Object TAIL = "dog_tail";
 
@@ -52,12 +53,14 @@ public class Dog extends CompoundPhysicalEntity {
     private Body target;
     boolean running;
     int flagGrow = 0;
+    int numLinks;
     boolean dead = false;
     int playerNum;
 
     public Dog(IApp iApp, World world, int playerNum) {
         super(iApp);
         makeBodies(world);
+        numLinks = GameConst.Dog.Torso.NUM_LINKS;
         this.playerNum = playerNum;
         initAnimations();
         initSprites();
@@ -131,7 +134,7 @@ public class Dog extends CompoundPhysicalEntity {
         addBody(backBotArm);
         addBody(backTopArm);
         addBody(tail);
-        head.setLinearDamping(0.1f);
+        head.setLinearDamping(GameConst.Dog.LINEAR_DAMPING);
         head.setUserData(this);
 
     }
@@ -297,11 +300,14 @@ public class Dog extends CompoundPhysicalEntity {
         flagGrow += amount;
     }
     public void grow(){
+        if(numLinks >= GameConst.Dog.Torso.MAX_LINKS){
+            return;
+        }
+        numLinks ++;
         //  tail.getWorld().destroyJoint(tail.getJointList().get(0));
         Gdx.app.log("tttt Dog", "at grow()");
         for(JointEdge jointEdge:tail.getJointList()){
             if(jointEdge.other == links.get(links.size()-1)){
-                Gdx.app.log("tttt Dog", "destroy");
                 tail.getWorld().destroyJoint(jointEdge.joint);
                 break;
             }
@@ -321,5 +327,9 @@ public class Dog extends CompoundPhysicalEntity {
         this.headSprite = headSprite;
         // this.headSprite.setTime(0);
         this.headSprite.play();
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }

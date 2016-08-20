@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.davidhan.sloppydog.constants.SPGameRules;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.GameContactListener;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 import com.davidhan.sloppydog.screens.gamescreen.entities.BodyEntity;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Dog;
-import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Wall;
 
 
 /**
@@ -31,17 +31,13 @@ public class SinglePlayerContactListener extends GameContactListener {
       //  PhysicalEntity a = (PhysicalEntity)contact.getFixtureA().getBody().getUserData();
       //  PhysicalEntity b = (PhysicalEntity)contact.getFixtureB().getBody().getUserData();
         if(between(contact, Dog.TAG, Apple.TAG)){
-            if(oneFixtureIsTag(contact, Dog.HEAD)){
+            if(oneFixtureIsTag(contact, Dog.MOUTH)){
                 if(singlePlayerGame.gameRunning()) {
-                    singlePlayerGame.getGameLog().changeHunger(SPGameRules.Hunger.FOOD_FILL);
-                    Apple apple = (Apple) getEntityByTag(contact, Apple.TAG);
-                    Dog dog = (Dog) getEntityByTag(contact, Dog.TAG);
-                    dog.flagGrow(1);
-                    apple.flagForReposition();
-                    singlePlayerGame.incrementScore();
+                    singlePlayerGame.onAppleEaten((Apple)getEntityByTag(contact,Apple.TAG));
                 }
             }
         }
+
         if(oneFixtureIsTag(contact, Dog.HEAD)){
             Dog arm= (Dog) getEntityByTag(contact, Dog.TAG);
             //Gdx.app.log("tttt GameContactListener", "vel len "+arm.getHand().getLinearVelocity().len2());
@@ -51,12 +47,16 @@ public class SinglePlayerContactListener extends GameContactListener {
             }
         }
 
+
     }
 
     @Override
     public void endContact(Contact contact) {
 
-
+        if(between(contact, Wall.TAG, Apple.TAG)){
+            Apple apple = (Apple) getEntityByTag(contact,Apple.TAG);
+            apple.hitWall();
+        }
     }
 
     @Override

@@ -84,7 +84,7 @@ public class ListItem extends HanTable {
         padTop(12);
         Cell cell = add(titleLabel).fillX().minWidth(140).expandX();
         if(!value.isEmpty()){
-            cell.spaceRight(Spacing.SPACE_REG);
+            cell.spaceRight(Spacing.REG);
             add(valueLabel).growX();
         }
         pack();

@@ -2,9 +2,11 @@ package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.GameConst;
+import com.davidhan.sloppydog.constants.SPGameRules;
 import com.davidhan.sloppydog.screens.gamescreen.GameScreen;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.BodyFactory;
 import com.davidhan.sloppydog.screens.gamescreen.entities.BgGrass;
@@ -22,14 +24,14 @@ import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 public class SinglePlayerGame extends GameScreen {
     SinglePlayerGui gui;
 
-    Apple ball;
     Dog dog;
     //Door door;
-    Apple apple;
+    Apple currentApple;
     BgGrass bgGrass;
     SinglePlayerGameLog gameLog;
     SinglePlayerPauseMenu pauseMenu;
     SPGameOverMenu gameOverMenu;
+    boolean flagAppleEaten;
 
     public SinglePlayerGame(IApp iApp) {
         super(iApp);
@@ -53,12 +55,6 @@ public class SinglePlayerGame extends GameScreen {
        // door = new Door(BodyFactory.createDoor(world));
     }
 
-    private void spawnBall() {
-        ball = new Apple(iApp, BodyFactory.createBall(world));
-        ball.setBodyPos(GameConst.Ball.STARTING_X, GameConst.Ball.STARTING_Y);
-        entitiesGroup.spawn(ball);
-    }
-
     @Override
     protected void checkKeys() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -70,9 +66,6 @@ public class SinglePlayerGame extends GameScreen {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             onTouchedDown();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            dog.face(apple.body().getPosition());
         }
 
     }
@@ -86,9 +79,8 @@ public class SinglePlayerGame extends GameScreen {
         gui.newGame();
         // spawnBall();
 
-        apple = new Apple(iApp, BodyFactory.createTarget(world));
-        apple.body().setTransform(3, GameConst.World.HEIGHT - 7, 0);
-        entitiesGroup.spawn(apple);
+        currentApple = new Apple(iApp, BodyFactory.createTarget(world),0,new Vector2(3, GameConst.World.HEIGHT - 7));
+        entitiesGroup.spawn(currentApple);
         spawnDog();
     }
 
@@ -108,7 +100,7 @@ public class SinglePlayerGame extends GameScreen {
         dog = new Dog(iApp, world, 0);
         // door.setArm(dog);
         entitiesGroup.spawn(dog);
-        dog.setTarget(apple.body());
+        dog.setTarget(currentApple.body());
         dog.translateBodiesTo(GameConst.Dog.STARTING_X, GameConst.Dog.STARTING_Y);
     }
 
@@ -181,7 +173,25 @@ public class SinglePlayerGame extends GameScreen {
         if (!gameRunning()) return;
         dog.setRunning(false);
     }
+    public void onAppleEaten(Apple apple){
+        if(apple == currentApple && !apple.isEaten() && dog.isRunning()) {
+            getGameLog().changeHunger(SPGameRules.Hunger.getAppleFillAmount(getGameLog().getScore()));
+            dog.flagGrow(1);
+            apple.getEaten();
+            //apple.flagForReposition();
+            incrementScore();
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    currentApple = new Apple(iApp, BodyFactory.createTarget(world), gameLog.getScore(), currentApple.body().getPosition());
+                    entitiesGroup.spawn(currentApple);
+                    dog.setTarget(currentApple.body());
 
+                }
+            });
+        }
+
+    }
     public boolean gameRunning() {
         return !gameEnded && gameStarted;
     }

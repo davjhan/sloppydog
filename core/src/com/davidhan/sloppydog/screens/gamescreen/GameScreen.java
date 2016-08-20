@@ -136,9 +136,9 @@ public abstract class GameScreen extends com.davidhan.sloppydog.screens.ScreenBa
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.SPACE) {
-            if (gameStarted) {
+            if (gameStarted && !gameEnded) {
                 endGame();
-            } else {
+            } else if(!gameStarted && !gameEnded){
                 startGame();
             }
         }

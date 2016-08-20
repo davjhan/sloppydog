@@ -24,6 +24,8 @@ public class FontAssets {
 
         public static final String SGK = "sgk-16.ttf";
         public static final String SPORTY = "sporty-16.ttf";
+        public static final String SPORTY_32 = "sporty-32.ttf";
+        public static final String SPORTY_48 = "sporty-48.ttf";
         public static final String SPORTY_BTN_REG = "sporty-btn-reg.ttf";
         public static final String SPORTY_BTN_PRIMARY = "sporty-btn-primary.ttf";
         public static final String SPORTY_BTN_DISABLED = "sporty-btn-disabled.ttf";
@@ -34,6 +36,8 @@ public class FontAssets {
         assets.load(Font.SGK, BitmapFont.class, getLoaderParams(FONT_SGK_100, 16));
         assets.load(Font.SGK_PARAGRAPH, BitmapFont.class, getLoaderParams(FONT_SGK_100, 16));
         assets.load(Font.SPORTY, BitmapFont.class, getLoaderParams(FONT_SPORTY, 16));
+        assets.load(Font.SPORTY_32, BitmapFont.class, getLoaderParams(FONT_SPORTY, 32));
+        assets.load(Font.SPORTY_48, BitmapFont.class, getLoaderParams(FONT_SPORTY, 48));
         assets.load(Font.SPORTY_BTN_REG, BitmapFont.class,
                 highlight(
                         getLoaderParams(FONT_SPORTY, 16),

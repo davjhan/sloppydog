@@ -36,7 +36,9 @@ public class DogBodyFactory {
                     GameConst.Dog.Torso.LINK_HALF_LENGTH,
                     Dog.SHAFT,
                     CollisionGroups.FILTER_DOG_TORSO());
-
+            for(Fixture fixture:linkBody.getFixtureList()){
+                fixture.setDensity( GameConst.Dog.Torso.DENSITY);
+            }
             linkBody.setTransform(
                     0,
                     - GameConst.Dog.Torso.LINK_HALF_LENGTH
@@ -52,7 +54,7 @@ public class DogBodyFactory {
                     linkBody.getPosition().y - GameConst.Dog.Torso.LINK_HALF_LENGTH);
             links.add(linkBody);
             linkBody.setUserData(userData);
-            linkBody.setLinearDamping(0.1f);
+            linkBody.setLinearDamping(GameConst.Dog.LINEAR_DAMPING);
         }
 
         return links;
@@ -70,15 +72,23 @@ public class DogBodyFactory {
 
         // filterData.maskBits = 31;
 
-        CircleShape handShape = new CircleShape();
-        handShape.setRadius(GameConst.Dog.Head.RADIUS);
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(GameConst.Dog.Head.RADIUS);
 
         FixtureDef fixtureDef = BodyFactoryUtils.getArmFixtureDef();
-        fixtureDef.density=5;
-        fixtureDef.shape = handShape;
+        fixtureDef.density = GameConst.Dog.Head.DENSITY;
+        fixtureDef.shape = circleShape;
         Fixture head = handBody.createFixture(fixtureDef);
         head.setUserData(Dog.HEAD);
         head.setFilterData(CollisionGroups.FILTER_DOG_TORSO());
+
+
+        circleShape.setRadius(GameConst.Dog.Head.MOUTH_RADIUS);
+        circleShape.setPosition(new Vector2(-0.15f,GameConst.Dog.Head.RADIUS-0.5f));
+        fixtureDef.shape = circleShape;
+        Fixture mouth = handBody.createFixture(fixtureDef);
+        mouth.setUserData(Dog.MOUTH);
+        mouth.setSensor(true);
       //  Fixture handSensor = handBody.createFixture(fixtureDef);
       // handSensor.setUserData(Dog.HEAD);
        // handSensor.setSensor(true);
@@ -95,6 +105,8 @@ public class DogBodyFactory {
         revoluteJointDef.localAnchorB.x = 0;
         revoluteJointDef.localAnchorB.y = -GameConst.Dog.Torso.LINK_HALF_LENGTH;
         world.createJoint(revoluteJointDef);
+
+        circleShape.dispose();
         return handBody;
     }
     public static Body createTail(World world, Body firstLink) {
@@ -114,7 +126,7 @@ public class DogBodyFactory {
         handShape.setRadius(GameConst.Dog.Tail.RADIUS);
 
         FixtureDef fixtureDef = BodyFactoryUtils.getArmFixtureDef();
-        fixtureDef.density=5;
+        fixtureDef.density=GameConst.Dog.Tail.DENSITY;
         fixtureDef.shape = handShape;
         Fixture head = handBody.createFixture(fixtureDef);
         head.setUserData(Dog.TAIL);

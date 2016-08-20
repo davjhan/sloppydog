@@ -85,13 +85,13 @@ public class SinglePlayerGui extends GameGroup {
 
 
         Image appleIcon = new Image(iApp.res().textures.appleIcon);
-        appleIcon.setSize(20,20);
         scoreCounter = new HanLabel(iApp,"0", FontAssets.Font.SPORTY, Colors.get(ColorNames.OFF_WHITE));
+
+        inGame.spawn(appleIcon, Spacing.SMALL_PLUS, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        inGame.spawn(scoreCounter,appleIcon.getRight()+ Spacing.X_SMALL, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        inGame.spawn(hungerMeter,scoreCounter.getRight()+Spacing.SMALL,Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
+        hungerMeter.setX(scoreCounter.getRight()+Spacing.SMALL);
         inGame.spawn(pauseButton,Display.WIDTH,Display.HEIGHT,Align.topRight);
-        inGame.spawn(appleIcon, Spacing.PAD_REG, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
-        inGame.spawn(scoreCounter,appleIcon.getRight()+ Spacing.PAD_SM, Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
-        inGame.spawn(hungerMeter,scoreCounter.getRight()+Spacing.PAD_REG,Display.HEIGHT- GameConst.Hud.HEIGHT/2,Align.left);
-        hungerMeter.setX(scoreCounter.getRight()+Spacing.PAD_REG);
       //  inGame.addActor(resetButton);
 
 
@@ -178,6 +178,6 @@ public class SinglePlayerGui extends GameGroup {
     public void setScore(int score) {
         scoreCounter.setText(String.valueOf(score));
         scoreCounter.layout();
-        hungerMeter.setX(scoreCounter.getRight()+Spacing.PAD_REG*((int)Math.log10(score)+1));
+        hungerMeter.setX(scoreCounter.getRight()+Spacing.SMALL *((int)Math.log10(score)+1));
     }
 }
