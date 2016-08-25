@@ -38,7 +38,7 @@ public class BodyFactoryUtils {
     public static FixtureDef getArmFixtureDef(){
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 0.2f;
-        fixtureDef.friction = 1;
+        fixtureDef.friction = 0;
         fixtureDef.restitution = 0.9f;
 
         return fixtureDef;

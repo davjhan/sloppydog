@@ -8,14 +8,17 @@ package com.davidhan.sloppydog.utils;
  * Copyright (c) 2016 David Han
  **/
 public class NumUtils {
-    public String numPaddedToString(int num, int decimalPlaces,String numberColor){
+    public static String numPaddedToString(int num, int decimalPlaces,String zeroesColor,String numberColor){
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < decimalPlaces-Math.log10(num) + 1; i ++){
+        sb.append("[#");
+        sb.append(zeroesColor);
+        sb.append("]");
+        for(int i = 0; i < decimalPlaces-String.valueOf(num).length(); i ++){
             sb.append('0');
         }
         sb.append("[#");
         sb.append(numberColor);
-        sb.append("ff]");
+        sb.append("]");
         sb.append(num);
         return sb.toString();
     }

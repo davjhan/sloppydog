@@ -116,6 +116,7 @@ public class SinglePlayerGui extends GameGroup {
                 controller.onTouchedUp();
                 //screenTouchDown = false;
             }
+
         });
 
         //leftArrow = new OnScreenArrow(iApp,controlller,-1);

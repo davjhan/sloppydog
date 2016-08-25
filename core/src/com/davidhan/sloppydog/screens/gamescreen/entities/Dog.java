@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.JointEdge;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.constants.GameConst;
@@ -50,6 +51,8 @@ public class Dog extends CompoundPhysicalEntity {
     List<Body> backTopArm;
     List<Body> backBotArm;
     Vector2  headOrigin;
+    MassData headNormalMassData;
+    MassData headHeavyMassData;
     private Body target;
     boolean running;
     int flagGrow = 0;
@@ -64,7 +67,9 @@ public class Dog extends CompoundPhysicalEntity {
         this.playerNum = playerNum;
         initAnimations();
         initSprites();
-
+        //headNormalMassData = head.getMassData();
+       headHeavyMassData = head.getMassData();
+        headHeavyMassData.mass *= 2;
     }
 
     private void initAnimations() {
@@ -198,15 +203,42 @@ public class Dog extends CompoundPhysicalEntity {
                 setRunning(false);
             }
             if (running) {
+                head.setLinearDamping(0);
+                head.setAngularDamping(0);
+                head.resetMassData();
+                tail.setLinearDamping(0);
+                face(target.getPosition());
                 goToLocation(target.getPosition(), GameConst.Arm.IMPULSE_POWER);
                 setHeadSprite(headChomping);
             } else {
+                //straighten(head,links.get(0),40);
+               // tail.setLinearDamping(2);
+                Body before = head;
+                for(int i = 0; i < links.size(); i ++){
+
+                    if(Math.abs(links.get(i).getAngle()-before.getAngle())*MathUtils.radDeg> GameConst.Dog.REVOLUTE_JOINT_MAX_ANGLE){
+                        Gdx.app.log("tttt Dog", "over: " +i);
+                      //  straighten(links.get(i),before,10);
+                        break;
+                    }
+                    before = links.get(i);
+                }
+                head.setMassData(headHeavyMassData);
                 setHeadSprite(headIdle);
             }
             if(flagGrow > 0){
                 grow();
             }
         }
+
+    }
+
+    private void straighten(Body body1, Body anchor,float power) {
+        temp1.set(anchor.getPosition());
+        temp2.set(0,GameConst.Dog.Torso.LINK_HALF_LENGTH*2);
+        temp2.setAngleRad(anchor.getAngle()+MathUtils.PI);
+        temp1.sub(temp2);
+        //goToLocation(body1,temp1,power);
     }
 
     public void setTarget(Body target) {
@@ -231,11 +263,6 @@ public class Dog extends CompoundPhysicalEntity {
         vec.sub(body.getPosition());
         float deltaRad = vec.angleRad() - (90 * MathUtils.degRad) - body.getAngle();
         float intensity = Math.min(Math.abs(deltaRad) / (90 * MathUtils.degRad), 1);
-
-        Gdx.app.log("tttt Arm", "angle: " + vec.angleRad() * MathUtils.radDeg);
-        Gdx.app.log("tttt Arm", "deltaRad: " + deltaRad * MathUtils.radDeg);
-        Gdx.app.log("tttt Arm", "intensity: " + intensity);
-        Gdx.app.log("tttt Arm", "-------------------");
         body.applyAngularImpulse(Math.signum(deltaRad) * intensity * 30, true);
     }
 

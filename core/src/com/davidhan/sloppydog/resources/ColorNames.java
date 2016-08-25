@@ -38,6 +38,8 @@ public class ColorNames {
     public static final String HUNGER_METER_EMPTY_TEXT = HUNGER_METER_BG;
     public static final String SECONDARY_TEXT = "644863";
     public static final String TEXT_DIM = "977777";
+    public static final String ON_DARK_TEXT_DIM = "967295";
+    public static final String GOLDEN_TEXT = "f4ac54";
 
     public ColorNames() {
 

@@ -84,7 +84,7 @@ public class DogBodyFactory {
 
 
         circleShape.setRadius(GameConst.Dog.Head.MOUTH_RADIUS);
-        circleShape.setPosition(new Vector2(-0.15f,GameConst.Dog.Head.RADIUS-0.5f));
+        circleShape.setPosition(new Vector2(-0.1f,GameConst.Dog.Head.RADIUS-1.4f));
         fixtureDef.shape = circleShape;
         Fixture mouth = handBody.createFixture(fixtureDef);
         mouth.setUserData(Dog.MOUTH);

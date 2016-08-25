@@ -9,9 +9,9 @@ import com.davidhan.sloppydog.constants.GameConst;
 import com.davidhan.sloppydog.constants.SPGameRules;
 import com.davidhan.sloppydog.screens.gamescreen.GameScreen;
 import com.davidhan.sloppydog.screens.gamescreen.box2d.BodyFactory;
+import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 import com.davidhan.sloppydog.screens.gamescreen.entities.BgGrass;
 import com.davidhan.sloppydog.screens.gamescreen.entities.Dog;
-import com.davidhan.sloppydog.screens.gamescreen.entities.Apple;
 
 
 /**
@@ -164,7 +164,6 @@ public class SinglePlayerGame extends GameScreen {
     @Override
     public void onTouchedDown() {
         if (!gameRunning()) return;
-        // dog.tunnelUp();
         dog.setRunning(true);
     }
 

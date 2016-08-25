@@ -38,24 +38,24 @@ public class GameConst {
         public static final float P1_STARTING_Y = Display.WORLD_HEIGHT-STARTING_Y_DIST+3;
     }
     public class Dog{
-        public static final float REVOLUTE_JOINT_MAX_ANGLE = 40;
+        public static final float REVOLUTE_JOINT_MAX_ANGLE = 15;
         public static final float LINEAR_DAMPING = 0.1f;
 
         public class Torso {
             public static final int NUM_LINKS = 3;
-            public static final int MAX_LINKS = 40;
+            public static final int MAX_LINKS = 50;
             public static final float RADIUS = 1f;
-            public static final float LINK_HALF_LENGTH = 0.6f;
+            public static final float LINK_HALF_LENGTH = 0.5f;
             public static final float DENSITY = 0.1f;
         }
         public class Head {
             public static final float RADIUS = 1.5f;
-            public static final float MOUTH_RADIUS = 1.2f;
-            public static final float DENSITY = 3;
+            public static final float MOUTH_RADIUS = 1.6f;
+            public static final float DENSITY = 2;
         }
         public class Tail {
             public static final float RADIUS = 1.5f;
-            public static final float DENSITY = 2;
+            public static final float DENSITY = 1;
         }
         public class Arm{
             public static final float NUM_LINKS = 6;
@@ -65,7 +65,7 @@ public class GameConst {
         }
         public static final float STARTING_Y= World.HALF_HEIGHT+6;
         public static final float STARTING_X= World.HALF_WIDTH;
-        public static final float IMPULSE_POWER = 80;
+        public static final float IMPULSE_POWER = 150;
 
 
 

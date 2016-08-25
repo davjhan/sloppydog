@@ -87,6 +87,7 @@ public class HanSkin extends Skin {
             }
         }
         getFont(FontAssets.Font.SPORTY_32).getData().markupEnabled = true;
+        getFont(FontAssets.Font.SPORTY_48).getData().markupEnabled = true;
         //getFont(FontAssets.Font.SPORTY).getData().capHeight = 4;
         getFont(FontAssets.Font.SPORTY).getData().ascent = 3;
         getFont(FontAssets.Font.SPORTY).getData().descent = 0;

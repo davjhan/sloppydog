@@ -1,6 +1,5 @@
 package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
@@ -31,10 +30,9 @@ public class SinglePlayerContactListener extends GameContactListener {
       //  PhysicalEntity a = (PhysicalEntity)contact.getFixtureA().getBody().getUserData();
       //  PhysicalEntity b = (PhysicalEntity)contact.getFixtureB().getBody().getUserData();
         if(between(contact, Dog.TAG, Apple.TAG)){
-            if(oneFixtureIsTag(contact, Dog.MOUTH)){
-                if(singlePlayerGame.gameRunning()) {
+            if(oneFixtureIsTag(contact, Dog.HEAD)){
                     singlePlayerGame.onAppleEaten((Apple)getEntityByTag(contact,Apple.TAG));
-                }
+
             }
         }
 
@@ -42,7 +40,7 @@ public class SinglePlayerContactListener extends GameContactListener {
             Dog arm= (Dog) getEntityByTag(contact, Dog.TAG);
             //Gdx.app.log("tttt GameContactListener", "vel len "+arm.getHand().getLinearVelocity().len2());
             if(arm.getHead().getLinearVelocity().len2() > 30*30){
-                Gdx.app.log("tttt GameContactListener", "shake: ");
+               // Gdx.app.log("tttt GameContactListener", "shake: ");
                 singlePlayerGame.shakeScreen(4);
             }
         }

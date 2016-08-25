@@ -10,8 +10,9 @@ package com.davidhan.sloppydog.backend;
 public class SavedData {
     public int versionNumber = 1;
     public String versionName = "0.1";
+    public int numAppOpens = 0;
     public int highscore = 0;
-    public int totalApples = 0;
+    public int lifetimeEaten = 0;
     public int numGamesStarted = 0;
     public int numGamesCompleted = 0;
     public int numAdImpressions = 0;

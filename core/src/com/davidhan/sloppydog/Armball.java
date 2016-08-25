@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.davidhan.sloppydog.app.IApp;
 import com.davidhan.sloppydog.app.IScreen;
+import com.davidhan.sloppydog.backend.User;
 import com.davidhan.sloppydog.constants.Display;
 import com.davidhan.sloppydog.resources.Assets;
 import com.davidhan.sloppydog.screens.loadingscreen.LoadingScreen;
@@ -17,6 +18,7 @@ import com.davidhan.sloppydog.screens.loadingscreen.LoadingScreen;
 public class Armball extends Game implements IApp{
 
 	private Assets assets;
+    private User user;
     private Stage modalStage;
     InputMultiplexer inputMultiplexer;
     private boolean modalDebugAll =false;
@@ -52,8 +54,19 @@ public class Armball extends Game implements IApp{
 	}
 
     @Override
+    public User user() {
+        return user;
+    }
+
+    @Override
     public Stage modalStage() {
         return modalStage;
+    }
+
+    @Override
+    public void initUser() {
+        user = new User();
+        user.init();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.davidhan.sloppydog.screens.gamescreen.singleplayergame;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,6 +16,7 @@ import com.davidhan.sloppydog.uireusables.scene2dhan.ClickListener;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanLabel;
 import com.davidhan.sloppydog.uireusables.scene2dhan.HanTextButton;
 import com.davidhan.sloppydog.uireusables.scene2dhan.IconAndLabel;
+import com.davidhan.sloppydog.utils.NumUtils;
 
 /**
  * name: SPGameOverMenu
@@ -29,7 +31,7 @@ public class SPGameOverMenu extends ModalBase {
     HanLabel roundScoreLabel;
     HanLabel recordScoreLabel;
     HanLabel totalApplesLabel;
-
+    boolean isHighscore;
     public SPGameOverMenu(IApp iApp, GameScreen gameScreen, SinglePlayerGameLog spGameLog) {
         super(iApp, false);
         this.spGameLog = spGameLog;
@@ -37,6 +39,14 @@ public class SPGameOverMenu extends ModalBase {
 
         begin();
         setTableFullWidth(table);
+    }
+
+    @Override
+    protected void begin() {
+        isHighscore = iApp.user().setHighscore(spGameLog.getScore());
+        //isHighscore = true;
+        iApp.user().incrementLifetimeEaten(spGameLog.getScore());
+        super.begin();
     }
 
     @Override
@@ -78,15 +88,18 @@ public class SPGameOverMenu extends ModalBase {
     public Table getScoreTable() {
         Table scoreTable = new Table();
         recordScoreLabel = new HanLabel(iApp, "RECORD: " + spGameLog.getScore(), HanSkin.LabelStyles.TITLE);
-        roundScoreLabel = new HanLabel(iApp, String.valueOf(spGameLog.getScore()), HanSkin.LabelStyles.EXTRABIG);
+        roundScoreLabel = new HanLabel(iApp, NumUtils.numPaddedToString(spGameLog.getScore(),2,ColorNames.BTN_REGULAR_TEXT,ColorNames.OFF_WHITE), HanSkin.LabelStyles.EXTRABIG);
         HanLabel titleLabelText =   new HanLabel(iApp, "SCORE:", HanSkin.LabelStyles.TITLE);
         titleLabelText.setFontColor(Colors.get(ColorNames.BTN_REGULAR_TEXT));
-        roundScoreLabel.setFontColor(Colors.get(ColorNames.OFF_WHITE));
-
+        roundScoreLabel.setFontColor(Color.WHITE);
+        recordScoreLabel.setText("RECORD: "+iApp.user().getHighscore());
+        Image appleIcon = new Image(iApp.res().textures.appleIcon);
+        IconAndLabel scoreLabelGroup =  new IconAndLabel(appleIcon,
+                titleLabelText);
+        scoreLabelGroup.setHeight(32);
         Table roundScoreGroup = new Table();
         roundScoreGroup.add(
-                new IconAndLabel(new Image(iApp.res().textures.appleIcon),
-                        titleLabelText)
+                scoreLabelGroup
         ).spaceBottom(Spacing.SMALL);
         roundScoreGroup.center();
         roundScoreGroup.pad(Spacing.REG);
@@ -99,6 +112,14 @@ public class SPGameOverMenu extends ModalBase {
         records.pad(Spacing.REG);
         records.add(recordScoreLabel);
         records.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[1]));
+
+        if(isHighscore){
+            records.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[4]));
+            roundScoreGroup.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[3]));
+            titleLabelText.setText("NEW RECORD!");
+            titleLabelText.setFontColor(Colors.get(ColorNames.GOLDEN_TEXT));
+            scoreLabelGroup.removeActor(appleIcon);
+        }
 
         scoreTable.add(roundScoreGroup).expandX().center().expandX().fillX();
         scoreTable.row();
@@ -115,15 +136,15 @@ public class SPGameOverMenu extends ModalBase {
 //                new HanLabel(iApp, "LIFETIME:", HanSkin.LabelStyles.TITLE)
 //                );
 
-        totalApplesLabel = new HanLabel(iApp, "0000[#"+ColorNames.NEAR_BLACK+"ff]0", HanSkin.LabelStyles.BIG);
-        totalApplesLabel.setFontColor(Colors.get(ColorNames.TEXT_DIM));
+        totalApplesLabel = new HanLabel(iApp, NumUtils.numPaddedToString(iApp.user().getLifetimeEaten(),6,ColorNames.TEXT_DIM,ColorNames.NEAR_BLACK), HanSkin.LabelStyles.BIG);
+        totalApplesLabel.setFontColor(Color.WHITE);
         totalApplesLabel.setAlignment(Align.right);
         table.pad(Spacing.REG);
         table.setBackground(new NinePatchDrawable(iApp.res().textures.bgNinePatches[1]));
-        table.add(lifetimeLabel).right().expandX().spaceBottom(Spacing.SMALL).colspan(2);
+        table.add(lifetimeLabel).right().expandX().spaceBottom(Spacing.SMALL);
         table.row();
        // table.add(new Image(iApp.res().textures.appleIcon)).left();
-        table.add(totalApplesLabel).fillX().right();
+        table.add(totalApplesLabel).fillX().expandX().right();
         table.pack();
         return table;
     }

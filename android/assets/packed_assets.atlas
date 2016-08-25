@@ -13,9 +13,16 @@ apple
   index: -1
 apple-icon
   rotate: false
-  xy: 646, 393
+  xy: 708, 440
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+arrow
+  rotate: false
+  xy: 646, 406
+  size: 60, 50
+  orig: 60, 50
   offset: 0, 0
   index: -1
 ball
@@ -41,7 +48,7 @@ btn-ninepatch
   index: -1
 dog-arm
   rotate: false
-  xy: 598, 314
+  xy: 388, 154
   size: 20, 30
   orig: 20, 30
   offset: 0, 0
@@ -55,14 +62,14 @@ dog-head
   index: -1
 dog-link
   rotate: false
-  xy: 840, 476
+  xy: 484, 242
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
   index: -1
 link
   rotate: false
-  xy: 840, 476
+  xy: 484, 242
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
@@ -76,7 +83,7 @@ dog-tail
   index: -1
 grass-tiles
   rotate: false
-  xy: 646, 411
+  xy: 840, 461
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
@@ -90,7 +97,7 @@ hand
   index: -1
 knob
   rotate: false
-  xy: 388, 164
+  xy: 246, 62
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -111,7 +118,7 @@ palette
   index: -1
 pause-button
   rotate: false
-  xy: 484, 242
+  xy: 598, 314
   size: 40, 30
   orig: 40, 30
   offset: 0, 0
@@ -125,7 +132,7 @@ shadow
   index: -1
 shaft
   rotate: false
-  xy: 246, 62
+  xy: 646, 384
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

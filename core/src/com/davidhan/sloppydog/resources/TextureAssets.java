@@ -27,6 +27,7 @@ public class TextureAssets extends TextureCutter {
     public TextureRegion[][] dogArm;
     public TextureRegion ball;
     public TextureRegion appleIcon;
+    public TextureRegion[] arrow;
     public TextureRegion[] apple;
     public TextureRegion[] shadow;
     public TextureRegion[] dogTail;
@@ -58,6 +59,7 @@ public class TextureAssets extends TextureCutter {
         dogArm = cut(atlas,"dog-arm",10,14);
         grassTiles = cutLinear(atlas,"grass-tiles",15,15);
         dogLink = cutLinear(atlas,"dog-link",20,30);
+        arrow = cutLinear(atlas,"arrow",30,50);
         appleIcon = cutSingle(atlas,"apple-icon");
         ball = cutSingle(atlas,"ball");
         apple = cutLinear(atlas,"apple",40,40);
